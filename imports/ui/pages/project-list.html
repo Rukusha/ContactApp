@@ -1,0 +1,12 @@
+<template name="ProjectList_page">
+    <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn"><a href="/projects/add">Add</a></li>
+        </ul>
+    </div>
+    <div class="flex-container">
+        {{#each projects}}
+        {{> Project_component}}
+        {{/each}}
+    </div>
+</template>

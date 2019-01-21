@@ -1,0 +1,1 @@
+export const generateAlias = name => name.toLowerCase().split(' ').join('-');

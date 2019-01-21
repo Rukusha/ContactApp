@@ -1,0 +1,96 @@
+<template name="IndividualsDetails_page">
+    <div class="detailedImg">
+        <div class="detailedFrame">
+            <div class="controls">
+                <button class="edit">Edit</button>
+                <button value="remove" class="remove">Delete</button>
+            </div>
+            <div class="deleteBtn">
+                <img class="projectDetailsImg is-400x400" src="{{ individuals.logo }}">
+                <button class="addP"><img class="imgAdd" src="/assets/images/si-glyph-clipboard-checked.svg" alt="icon for adding a project"/></button>
+                <button class="addPeople"><img class="imgAdd" src="/assets/images/si-glyph-person-plus.svg" alt="icon for adding a person"/></button>
+            </div>
+            <div class="individualsBio">
+                <p>{{ individuals.bio }}</p>
+                <div class="detailed-footer">
+                    <nav>
+                        <h1>Contact links</h1>
+                        <div class="contactLinks">
+                            <div class="C-Links">
+                                <a href="skype:{{ skype }}?call">
+                                    <span class="icon is-medium">
+                                        <i class="fab fa-skype"></i>
+                                    </span>
+                                </a>
+                                <a href="mailto:{{ mail }}">
+                                    <span class="icon is-medium">
+                                        <i class="fas fa-at"></i>
+                                    </span>
+                                </a>
+                                <a href="tel:{{ telephone }}">
+                                    <span class="icon is-medium">
+                                        <i class="fas fa-phone"></i>
+                                    </span>
+                                </a>
+                            <a href="https://www.linkedin.com/in/{{ linkedIn }}/">
+                                <span class="icon is-medium">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </span>
+                            </a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div id="addPeople">
+                <div class="list-group">
+                    <a class="list-group-item active">
+                        Select Employees
+                    </a>
+                    {{#each individualsAdd}}
+                    <a class="list-group-item individualAdd" name="peoplelist" value="{{_id}}">
+                        {{ name }}
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            <div id="addProject">
+                <div class="list-group">
+                    <a class="list-group-item active">
+                        Select Projects
+                    </a>
+                    {{#each projectsAdd}}
+                    <a class="list-group-item projectAdd" name="projectlist" value="{{_id}}">{{ name }}</a>
+                    {{/each}}
+                </div>
+            </div>
+        </div>      
+    </div>
+    <div class="tabsProInd tabProject">
+        <a>Projects</a>
+    </div>
+    <div class="tabsProInd tabIndividual">
+        <a>Partners</a>
+    </div>
+    <div id="partnerList">    
+        <h1 class="individual-projects">{{ individuals.name }} is employed by</h1>
+        <div class="flex-container">
+
+            {{#if hasPartners}}
+            {{#each partners}}
+            {{> Partner_component}}
+            {{/each}}
+            {{/if}}
+        </div>
+    </div>
+    <div id="projectList">
+        <h1 class="individual-projects">Projects {{ individuals.name }} is involved with</h1>
+        <div class="flex-container">
+            {{#if hasProjects}}
+            {{#each projects}}
+            {{> Project_component}}
+            {{/each}}
+            {{/if}}
+        </div>
+    </div>
+</template>

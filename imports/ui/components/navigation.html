@@ -1,0 +1,19 @@
+<template name="Navigation_component">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+
+      {{> loginButtons}}
+    </div>
+
+  </nav>
+<!--<img src="/assets/images/chair.png">-->
+    <h1 class="mainHeader">ICE Project Application</h1>
+  <div class="tabs is-centered">
+    <ul>
+      <li class="{{ activeClass 'ProjectList.show' }}"><a href="/projects">Projects</a></li>
+      <li class="{{ activeClass 'PartnerList.show' }}"><a href="/partners">Partners</a></li>
+      <li class="{{ activeClass 'IndividualsList.show' }}"><a href="/individuals">Individuals</a></li>
+    </ul>
+  </div>
+</template>

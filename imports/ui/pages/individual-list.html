@@ -1,0 +1,12 @@
+<template name="IndividualList_page">
+    <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn"><a href="/individuals/add">Add</a></li>
+        </ul>
+    </div>
+    <div class="flex-container">
+        {{#each individualsInfo}}
+        {{> Individual_component}}
+        {{/each}}
+    </div>
+</template>

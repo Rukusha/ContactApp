@@ -1,0 +1,48 @@
+<template name="override-atTextInput">
+
+    <div class="field {{#if isValidating}} validating {{/if}} {{#if hasError}} has-text-danger {{/if}} {{#if hasSuccess}} has-text-success {{/if}} {{#if feedback}} has-feedback {{/if}}">
+
+    {{#if showLabels }}
+
+        <label class="label">
+            {{ displayName }} {{#unless required }} {{ optionalText }} {{/unless }}
+        </label>
+
+    {{/if}}
+
+    <input id="at-field-{{ _id }}" class="input" type="{{ type }}" name="at-field-{{ _id }}" placeholder="{{ placeholder }}" autocapitalize="none" autocorrect="off">
+
+    {{#if hasIcon}}
+
+        <span class="{{ iconClass }}"></span>
+
+    {{/if}}
+
+    {{#if hasError }}
+
+        <span>{{ errorText }}</span>
+
+    {{/if}}
+
+    </div>
+
+</template>
+<template name="override-atSelectInput">
+
+    <div class="field">
+
+        <label class="label">{{ displayName }}</label>
+
+        <div class="control">
+            <div class="select">
+                <select id="at-field-{{_id}}" name="at-field-{{ _id }}">
+                    {{#each values }}
+                        <option value="{{ value }}">{{ text }}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+</template>

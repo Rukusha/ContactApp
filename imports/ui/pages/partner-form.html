@@ -1,0 +1,73 @@
+<template name="PartnerForm_page">
+    <form class="form">
+        <h1 class="title is-1 has-text-centered">New Partner</h1>
+        <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+                <input class="input" type="text" name="name" placeholder="Name of the partner">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Description</label>
+            <div class="control">
+                <textarea class="input" name="bio" placeholder="Description of the partner"></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Logo</label>
+            <div class="control">
+                <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
+            </div>
+        </div>
+<div class="field">
+      <label class="label">Individuals</label>
+      <div class="control">
+        <div class="select">
+          <select name="individuals">
+            <option selected value> Select an individual </option>
+            {{#each getAvailableIndividuals }}
+              <option value="{{ this._id }}">{{ this.name }}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      {{#each getSeletedIndividuals}}
+        <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
+          {{ this.name }}
+          <button class="delete is-small"></button>
+        </span>
+      {{/each}}
+    </div>
+        <div class="field">
+            <label class="label">Projects</label>
+            <div class="control">
+                <div class="select">
+                    <select name="projects">
+                        <option selected value> Select a project </option>
+                        {{#each getAvailableProjects }}
+                        <option value="{{ this._id }}">{{ this.name }}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="tags">
+            {{#each getSeletedProjects }}
+            <span data-id="{{ this._id }}" class="tag is-info is-medium is-project">
+                {{ this.name }}
+                <button class="delete is-small"></button>
+            </span>
+            {{/each}}
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <button type="submit" value="Submit" class="button is-link">Submit</button>
+            </div>
+            <div class="control">
+                <button class="button is-text">Cancel</button>
+            </div>
+        </div>
+    </form>
+</template>

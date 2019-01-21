@@ -1,0 +1,82 @@
+<template name="ProjectForm_page">
+  <form class="form">
+    <h1 class="title is-1 has-text-centered">New Project</h1>
+    <div class="field">
+      <label class="label">Owner</label>
+      <div class="control">
+        <div class="select">
+          <select name="owner">
+            <option selected value> Select the owner of the project </option>
+            {{#each getAvailableIndividuals }}
+              <option value="{{ this._id }}">{{ this.name }}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      {{#each getSeletedIndividuals}}
+        <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
+          {{ this.name }}
+          <button class="delete is-small"></button>
+        </span>
+      {{/each}}
+    </div>
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <input class="input" type="text" name="name" placeholder="Name of the project">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Website</label>
+      <div class="control">
+        <input class="input" type="text" name="domain" placeholder="Website of the project">
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Description</label>
+      <div class="control">
+            <textarea row="3" class="input" name="bio" placeholder="Description of the project"></textarea>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Logo</label>
+      <div class="control">
+        <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Individuals involved with the project</label>
+      <div class="control">
+        <div class="select">
+          <select name="individuals">
+            <option selected value> Select an individual </option>
+            {{#each getAvailableIndividuals }}
+              <option value="{{ this._id }}">{{ this.name }}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      {{#each getSeletedIndividuals}}
+        <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
+          {{ this.name }}
+          <button class="delete is-small"></button>
+        </span>
+      {{/each}}
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button type="submit" value="Submit" class="button is-link">Submit</button>
+      </div>
+      <div class="control">
+        <button value="cancle" class="button is-text">Cancel</button>
+      </div>
+    </div>
+  </form>
+</template>

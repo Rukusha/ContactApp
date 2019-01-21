@@ -1,0 +1,27 @@
+<template name="Project_component">
+    <div class="card project">
+        <div class="view-more">
+            <div class="middle">View more</div>
+        </div>
+        <div class="card-content">
+            <article class="media">
+                {{#if logo }}
+                <figure class="media-left">
+                    <img class="image logo" src="{{ logo }}">
+                </figure>
+                {{else}}
+                <figure class="media-left">
+                    <img class="image logo" src="{{ logo }}">
+                </figure>
+                {{/if}}
+            </article>
+            <article class="media">
+                <div class="media-content-projects">
+                    <div class="content">
+                        <p class="title is-4">{{ name }}</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</template>

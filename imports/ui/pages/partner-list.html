@@ -1,0 +1,13 @@
+<template name="PartnerList_page">
+    <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn"><a href="/partner/adds">Add</a></li>
+        </ul>
+    </div>
+    <div class="flex-container">
+        {{#each partners}}
+        {{> Partner_component}}
+        {{/each}}
+    </div>
+
+</template>

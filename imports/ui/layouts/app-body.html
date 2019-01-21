@@ -1,0 +1,9 @@
+<template name="App_body">
+  {{> Navigation_component}}
+  <div class="custom-container">
+    {{#if isAdmin }}
+      {{> Template.dynamic template=admin}}
+    {{/if}}
+    {{> Template.dynamic template=main}}
+  </div>
+</template>

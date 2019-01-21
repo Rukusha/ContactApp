@@ -1,0 +1,76 @@
+<template name="PartnerDetails_page">
+    <div class="partnerDetails">
+        <div class="detailedImg">
+            <div class="detailedFrame">
+                <div class="controls">
+                    <button class="edit">Edit</button>
+                    <button value="remove" class="remove">Delete</button>
+                </div>
+                 <div class="deleteBtn">
+                <img class="projectDetailsImg is-400x400" src="{{ partner.logo }}">
+                    <button class="addP"><img class="imgAdd" src="/assets/images/si-glyph-clipboard-checked.svg" alt="icon for adding a project"/></button>
+                    <button class="addPeople"><img class="imgAdd" src="/assets/images/si-glyph-person-plus.svg" alt="icon for adding a person"/></button>
+                </div>
+                <div class="partnerBio">
+                    <p>{{ partner.bio }}</p>
+                </div>       
+                <div id="addPeople">
+                    <div class="list-group">
+                        <a class="list-group-item active">
+                            Select Employees
+                        </a>
+                        {{#each individualsAdd}}
+                        <a class="list-group-item individualAdd" name="peoplelist" value="{{_id}}">
+                            {{ name }}
+                        </a>
+                        {{/each}}
+                    </div>
+                </div>
+                <div id="addProject">
+                    <div class="list-group">
+                        <a class="list-group-item active">
+                            Select Projects
+                        </a>
+                        {{#each projectsAdd}}
+                        <a class="list-group-item projectAdd" name="projectlist" value="{{_id}}">{{ name }}</a>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tabsProInd tabProject">
+        <a>Projects</a>
+    </div>
+    <div class="tabsProInd tabIndividual">
+        <a>Individuals</a>
+    </div>
+    <div id="projectList">
+        <div class="h1-partners">
+            <h1>Projects {{ partner.name }} is involved in</h1>
+        </div>
+        {{#if hasProjects}}
+        <div class="projects">
+            <div class="flex-container">
+                {{#each projects}}
+                {{> Project_component}}
+                {{/each}}
+            </div>
+        </div>
+        {{/if}}
+    </div>
+    <div id="employees">
+        <div class="h1-partners">
+            <h1>Employees of {{ partner.name }}</h1>
+        </div>
+        {{#if hasIndividual}}
+        <div class="employeesInd">
+            <div class="flex-container">
+                {{#each individuals}}
+                {{> Individual_component}}
+                {{/each}}
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</template>

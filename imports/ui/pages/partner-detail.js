@@ -9,6 +9,11 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import './partner-detail.html';
 import { ReactiveVar } from 'meteor/reactive-var';
 
+//this function is used to dislay the no access notification to the current user f they dont have access
+function restrict() {
+    var showHide = document.getElementById("overNoAccess");
+    showHide.style.display = "block";
+};
 
 Template.PartnerDetails_page.onCreated(function onCreatedPartnerDetailsPage() {
     Template.PartnerDetails_page.helpers({
@@ -16,10 +21,13 @@ Template.PartnerDetails_page.onCreated(function onCreatedPartnerDetailsPage() {
             return Projects.find({}, {sort: {name: 1}});
         },
         individualsAdd() {
-            return Individuals.find({}, {sort: {name: 1}});
+                        return Individuals.find({}, {sort: {name: 1}});       
         }
     });
-
+    const project = FlowRouter.getParam('partnerId');
+    const projectObject = Partners.findOne({_id: project});
+    const adminCheck = projectObject.owner;
+    
     Meteor.subscribe('projects');
     Meteor.subscribe('partners');
     Meteor.subscribe('individuals');
@@ -30,7 +38,6 @@ Template.PartnerDetails_page.onCreated(function onCreatedPartnerDetailsPage() {
     this.selectedProjects = new ReactiveVar([]);
     this.selectedIndividuals = new ReactiveVar([]);
     this.autorun(() => {
-
         const projects = Projects.find({}, {
             fields: {_id: 1, name: 1},
             sort: {alias: 1}
@@ -45,61 +52,54 @@ Template.PartnerDetails_page.onCreated(function onCreatedPartnerDetailsPage() {
         this.selectedIndividuals.set([]);
     });
 
-    Template.PartnerDetails_page.helpers({
-        getAvailableProjects() {
-            return Template.instance().availableProjects.get();
-        },
-        getSeletedProjects() {
-            return Template.instance().selectedProjects.get();
-        },
-        getAvailableIndividuals() {
-            return Template.instance().availableIndividuals.get();
-        },
-        getSeletedIndividuals() {
-            return Template.instance().selectedIndividuals.get();
-        }
-    });
     Template.PartnerDetails_page.events({
+          'click .projects'(event) {
+              },
         'click .individualAdd'() {
 //            checks to make sure a user is logged in
             if (!Meteor.userId()) {
-                throw new Meteor.Error('not-authorized');
-            }
-//            checks to make sure a user is logged in on an admin account
-            var loggedInUser = Meteor.user();
-            if (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) {
-//                Finds the appropriate partner Id
-                const partnerId = FlowRouter.getParam('partnerId');
-//                sets the the value to the Id of the project
-                var name = $(this).attr('_id');
-//                finds the partner with a matching id
-                var doc = Partners.findOne({_id: partnerId});
-//                updates the entry
-                Partners.update({_id: doc._id}, {$addToSet: {individuals: name}});
-
-                console.log("individual has been added to partner");
-                var showHide = document.getElementById("addPeople");
-                showHide.style.display = "none";
-                var showHide = document.getElementById("employees");
-                showHide.style.display = "block";
-                var showHide = document.getElementById("projectList");
-                showHide.style.display = "none";
-                
+                restrict();
             } else {
-                console.log("cant add individual Not Authorized");
-
+//          checks to make sure a user is logged in on an admin account
+                var loggedInUser = Meteor.user();
+                if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
+//          Finds the appropriate partner Id
+                    const partnerId = FlowRouter.getParam('partnerId');
+//          sets the the value to the Id of the project
+                    var name = $(this).attr('_id');
+//          finds the partner with a matching id
+                    var doc = Partners.findOne({_id: partnerId});
+//          updates the entry
+                    Partners.update({_id: doc._id}, {$addToSet: {individuals: name}});
+//          this section holds the variables for the while loops to follow.
+//          gets the array length and sets them to the appropiate var
+                    var projectsLength = Projects.count;
+//          counters
+                    var i = 0;
+                    while (projectsLength > i) {
+//          Here its using the projects array to search for a individuals id match in the Projects collection
+                        const doc = Projects.findOne({individuals: name});
+//          Updating the projects collection by adding the individuals Id into it
+                        Partners.update({_id: partnerId}, {$addToSet: {projects: doc._id}});
+                        i++;
+                    }
+                    console.log("individual has been added to partner");
+                } else {
+                    restrict();
+                }
             }
         }
     });
+    
     Template.PartnerDetails_page.events({
         'click .projectAdd'() {
 //            checks to make sure a user is logged in
             if (!Meteor.userId()) {
-                throw new Meteor.Error('not-authorized');
+                restrict();
             }
 //            checks to make sure a user is logged in on an admin account
             var loggedInUser = Meteor.user();
-            if (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) {
+                if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
 //                Finds the appropriate partner Id
                 const partnerId = FlowRouter.getParam('partnerId');
 //                sets the the value to the Id of the project
@@ -109,85 +109,128 @@ Template.PartnerDetails_page.onCreated(function onCreatedPartnerDetailsPage() {
 //                updates the entry
                 Partners.update({_id: doc._id}, {$addToSet: {projects: name}});
                 console.log("Project has been added to partner");
-                var showHide = document.getElementById("addProject");
-                showHide.style.display = "none";
-                var showHide = document.getElementById("projectList");
-                showHide.style.display = "block";
-                var showHide = document.getElementById("employees");
-                showHide.style.display = "none";
-                
             } else {
-                console.log("cant add project Not Authorized");
+                restrict();
             }
-        },
-        'click .tabProject'() {
-            var showHide = document.getElementById("projectList");
-            if (showHide.style.display === "block") {
-                showHide.style.display = "none";
-            } else {
-                showHide.style.display = "block";
-            }
-             var showHide = document.getElementById("employees");
-             showHide.style.display = "none";
-        },
-        'click .tabIndividual'() {
-            var showHide = document.getElementById("employees");
-            if (showHide.style.display === "block") {
-                showHide.style.display = "none";
-            } else {
-                showHide.style.display = "block";
-            }
-             var showHide = document.getElementById("projectList");
-                showHide.style.display = "none";
         },
         'click .addP'() {
-            var showHide = document.getElementById("addProject");
-            if (showHide.style.display === "block") {
-                showHide.style.display = "none";
+            if (!Meteor.userId()) {
+                restrict();
             } else {
-                showHide.style.display = "block";
-            }
-        },
+                var loggedInUser = Meteor.user();
+                if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
+                    var showHide = document.getElementById("addProject");
+                    var modal = document.getElementById("modal-Mine");
+                    var close = document.getElementById("modalClose");
+                    var addPeoples = document.getElementById("addPeoples");
+                    addPeoples.style.display = "block";
+
+                    modal.style.display = "block";
+                    showHide.style.display = "block";
+                    close.style.display = "block";
+                    addPeoples.style.display = "block";
+                } else {
+                    restrict();
+                }
+                }
+            },
+            
         'click .addPeople'() {
-            var showHide = document.getElementById("addPeople");
-            if (showHide.style.display === "block") {
-                showHide.style.display = "none";
+            if (!Meteor.userId()) {
+                restrict();
             } else {
-                showHide.style.display = "block";
+                var loggedInUser = Meteor.user();
+                if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
+                    var showHide = document.getElementById("addPeople");
+                    var modal = document.getElementById("modal-Mine");
+                    var close = document.getElementById("modalClose");
+                    var addPeoples = document.getElementById("addPeoples");
+                    addPeoples.style.display = "block";
+
+                    modal.style.display = "block";
+                    showHide.style.display = "block";
+                    close.style.display = "block";
+                    addPeoples.style.display = "block";
+                } else {
+                    restrict();
+                }
             }
         },
+        
         'click .remove'() {
             const partnerId = FlowRouter.getParam('partnerId');
             if (!Meteor.userId()) {
-                throw new Meteor.Error('not-authorized');
-            }
-            var loggedInUser = Meteor.user();
-            if (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) {
-                console.log("Partner has been removed");
-                Partners.remove(partnerId);
-                FlowRouter.go('PartnerList.show');
+                restrict();
             } else {
-                console.log("cant remove Not Authorized");
+                var loggedInUser = Meteor.userId();
+                if ((Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) || (adminCheck === loggedInUser)) {
+                    Partners.remove(partnerId);
+                    FlowRouter.go('PartnerList.show', {partnerId: partnerId});
+                } else {
+                    restrict();
+                }
             }
         },
+        
+        'click .createProject'(){
+                FlowRouter.go('Project.add');
+        },
+        
+        'click .createP'(){
+                FlowRouter.go('Individuals.add');
+        },
+        
         'click .edit'() {
             const partnerId = FlowRouter.getParam('partnerId');
             if (!Meteor.userId()) {
-                throw new Meteor.Error('not-authorized');
-            }
-            var loggedInUser = Meteor.user();
-            if (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) {
-                FlowRouter.go('PartnerEditDetails.edit', {partnerId: partnerId});
+                restrict();
             } else {
-                console.log("Access restricted");
+                var loggedInUser = Meteor.userId();
+                if ((Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) || (adminCheck === loggedInUser)) {
+                    FlowRouter.go('PartnerEditDetails.edit', {partnerId: partnerId});
+                } else {
+                    restrict();
+                }
             }
+        },
+        
+        'click .noAccessBtn-right'() {
+            FlowRouter.go('PartnerDetails.show');
+            var showHide = document.getElementById("overNoAccess");
+            if (showHide.style.display === "block") {
+                showHide.style.display = "none";
+            } else {
+                showHide.style.display = "block";
+            }
+        },
+        
+        'click .close'() {
+            var modal = document.getElementById("modal-Mine");
+            modal.style.display = "none";
+            var showHide = document.getElementById("addPeople");
+            showHide.style.display = "none";
+            var addProject = document.getElementById("addProject");
+            addProject.style.display = "none";
         }
     }
     );
 
     Template.PartnerDetails_page.helpers({
+//        'click .projects'(){
+//        hasIndividualss() {
+//            const partnerId = FlowRouter.getParam('partnerId');
+//            const partner = Partners.findOne({_id: partnerId});
+//            const individualsIds = partner.individuals || [];
+//            return !!individualsIds.length;
+//        },
+//        individualss() {
+//            const partnerId = FlowRouter.getParam('partnerId');
+//            const partner = Partners.findOne({_id: partnerId});
+//            const individualsIds = partner.individuals || [];
+//            return Individuals.find({_id: {$in: individualsIds}});
+//        }
+//        },
         'click .card.partner'(event) {
-
             // Prevent default browser form submit
             event.preventDefault();
             event.stopPropagation();

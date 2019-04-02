@@ -15,3 +15,8 @@ import './individual-edit';
 
 import './login-form';
 import './join-form';
+
+import './admin';
+import './admin-form';
+
+import './user';

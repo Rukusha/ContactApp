@@ -1,17 +1,37 @@
 <template name="ProjectForm_page">
+              <!-- start banner Area -->
+              
+    <section class="banner-area relative" id="home">
+        <div class="overlay overlay-bg"></div>	
+        <div class="container">
+            <div class="row fullscreen d-flex align-items-center justify-content-center">
+                <div class="banner-content col-lg-8">							<h1 class="text-white">
+                        {{ partner.name }}				
+                    </h1>
+                    <p class="pt-20 pb-20 text-white">
+                        Welcome to the project creation page. From here you are able to create projects.
+                    </p>		
+                </div>											
+            </div>
+        </div>					
+    </section>
+    <!-- End banner Area -->
   <form class="form">
     <h1 class="title is-1 has-text-centered">New Project</h1>
     <div class="field">
-      <label class="label">Owner</label>
+      <label class="label">Admin selection</label>
       <div class="control">
         <div class="select">
-          <select name="owner">
-            <option selected value> Select the owner of the project </option>
+          <select name="admin">
+            <option selected value> Select an Admin for the project </option>
             {{#each getAvailableIndividuals }}
               <option value="{{ this._id }}">{{ this.name }}</option>
             {{/each}}
           </select>
         </div>
+          <div class="projectNewPerson">
+            <button class="addPeople createP"><img class="imgAdd" src="../../assets/images/si-glyph-person-plus.png" alt="icon for adding a person"/></button>
+          </div>
       </div>
     </div>
     <div class="field">
@@ -22,6 +42,7 @@
         </span>
       {{/each}}
     </div>
+
     <div class="field">
       <label class="label">Name</label>
       <div class="control">
@@ -38,7 +59,7 @@
     <div class="field">
       <label class="label">Description</label>
       <div class="control">
-            <textarea row="3" class="input" name="bio" placeholder="Description of the project"></textarea>
+            <textarea class="input inputTextArea" name="bio" placeholder="Description of the project"></textarea>
       </div>
     </div>
     <div class="field">
@@ -48,34 +69,12 @@
       </div>
     </div>
 
-    <div class="field">
-      <label class="label">Individuals involved with the project</label>
-      <div class="control">
-        <div class="select">
-          <select name="individuals">
-            <option selected value> Select an individual </option>
-            {{#each getAvailableIndividuals }}
-              <option value="{{ this._id }}">{{ this.name }}</option>
-            {{/each}}
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      {{#each getSeletedIndividuals}}
-        <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
-          {{ this.name }}
-          <button class="delete is-small"></button>
-        </span>
-      {{/each}}
-    </div>
-
     <div class="field is-grouped">
       <div class="control">
         <button type="submit" value="Submit" class="button is-link">Submit</button>
       </div>
       <div class="control">
-        <button value="cancle" class="button is-text">Cancel</button>
+        <button value="cancle" class="cancel button is-text">Cancel</button>
       </div>
     </div>
   </form>

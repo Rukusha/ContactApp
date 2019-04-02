@@ -1,17 +1,14 @@
 <template name="Project_component">
     <div class="card project">
-        <div class="view-more">
-            <div class="middle">View more</div>
-        </div>
         <div class="card-content">
             <article class="media">
                 {{#if logo }}
                 <figure class="media-left">
-                    <img class="image logo" src="{{ logo }}">
+                    <img class="image logo" src="../../{{ logo }}">
                 </figure>
                 {{else}}
                 <figure class="media-left">
-                    <img class="image logo" src="{{ logo }}">
+                    <img class="image logo" src="/{{ logo }}">
                 </figure>
                 {{/if}}
             </article>

@@ -9,12 +9,12 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './partner-edit.html';
 
 Template.PartnerEditForm_page.onCreated(function onCreatedPartnerEditFormPage() {
-    
-Template.PartnerEditForm_page.helpers({
-  partners() {
-    return Partners.find({}, { sort: { name: 1 }});
-  }
-});
+    Template.PartnerEditForm_page.helpers({
+        partners() {
+            const partnerId = FlowRouter.getParam('partnerId');
+            return Partners.findOne({_id: partnerId});
+        }
+    });  
     Meteor.subscribe('projects');
     Meteor.subscribe('individuals');
     Meteor.subscribe('partners');
@@ -61,6 +61,9 @@ Template.PartnerEditForm_page.helpers({
             const target = event.target;
             const name = target.name.value;
             const bio = target.bio.value;
+            const twitter = target.twitter.value;
+            const facebook = target.facebook.value;
+            const linkedin = target.linkedin.value;
             const projects = Template.instance().selectedProjects.get().map(({ _id }) => _id);
             const individuals = Template.instance().selectedIndividuals.get().map(({ _id }) => _id);
             const logoFile = target.logo && target.logo.files && target.logo.files.length && target.logo.files[0];
@@ -68,9 +71,9 @@ Template.PartnerEditForm_page.helpers({
             //this takes the values for the logo
             Images.insert(logoFile, (error, imageDocument) => {
                 const partnerId = FlowRouter.getParam('partnerId');
-                const logo = `/cfs/files/images/${imageDocument._id}`;
+                const logo = `cfs/files/images/${imageDocument._id}`;
                 var doc = Partners.findOne({ _id: partnerId });
-                Partners.update({ _id:doc._id }, {$set:{name:name, logo:logo, bio:bio, projects:projects, individuals:individuals }});
+                Partners.update({ _id:doc._id }, {$set:{name:name, twitter: twitter, facebook: facebook, linkedin: linkedin, logo:logo, bio:bio, projects:projects, individuals:individuals }});
                 FlowRouter.go('PartnerList.show');
             });
         },

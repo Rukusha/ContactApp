@@ -2,42 +2,34 @@ import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../../api/images/images';
 import { Partners } from '../../api/partners/partners';
+import { Users } from '../../api/users/users';
 import { Individuals } from '../../api/individuals/individuals';
+import { EventsCollection } from '../../api/events/events';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Roles }  from 'meteor/alanning:roles';
 import './project-form.html';
 
+function Back() {
+    window.history.back();
+}
+;
 Template.ProjectForm_page.onCreated(function onCreatedProjectFormPage() {
 
-    this.subscribe('partners');
     this.subscribe('individuals');
 
-    this.availablePartners = new ReactiveVar([]);
     this.availableIndividuals = new ReactiveVar([]);
-
-    this.selectedPartners = new ReactiveVar([]);
     this.selectedIndividuals = new ReactiveVar([]);
 
     this.autorun(() => {
-
-        const partners = Partners.find({}, {
-            fields: {_id: 1, name: 1},
-            sort: {name: 1}
-        }).fetch();
-        this.availablePartners.set(partners);
-        this.selectedPartners.set([]);
-
         const individuals = Individuals.find({}, {
             fields: {name: 1},
             sort: {name: 1}
         }).fetch();
-
         this.availableIndividuals.set(individuals);
         this.selectedIndividuals.set([]);
     });
 });
-
 Template.ProjectForm_page.helpers({
     getAvailablePartners() {
         return Template.instance().availablePartners.get();
@@ -52,33 +44,47 @@ Template.ProjectForm_page.helpers({
         return Template.instance().selectedIndividuals.get();
     }
 });
+
 Template.ProjectForm_page.events({
     'submit .form'(event) {
         event.preventDefault();
         const target = event.target;
-        const owner = Template.instance().selectedIndividuals.get().map(({ _id }) => _id);
         const name = target.name.value;
+        const admin = target.admin.value;
         const domain = target.domain.value;
         const bio = target.bio.value;
-        const individuals = Template.instance().selectedIndividuals.get().map(({ _id }) => _id);
         const logoFile = target.logo && target.logo.files && target.logo.files.length && target.logo.files[0];
+        const docs = Individuals.findOne({_id: admin});
+        const owner = docs.owner;
+        const individuals = [admin];
 
         // Insert a task into the collection
         Images.insert(logoFile, (error, imageDocument) => {
-            const logo = `/cfs/files/images/${imageDocument._id}`;
+            logo = `cfs/files/images/${imageDocument._id}`;
             var loggedInUser = Meteor.user();
-            if (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) {
-                Meteor.call('projects.insert', {owner, name, domain, bio, logo, individuals});
-            } else {
-                console.log("Access restricted");
+            if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group'))) {
+                Meteor.call('projects.insert', {owner, admin, name, individuals, domain, bio, logo});
             }
+            var UserWhoIssuedEvent = Meteor.user();
+            const busService = {
+                UserWhoIssuedEvent, owner, admin, name, individuals, domain, bio, logo
+
+            };
+            //Server call to persist the data. 
+            Meteor.call("createBusServiceProject", busService, function (error, result) {
+                if (error) {
+                    $(event.target).find(".error").html(error.reason);
+                } else {
+                    Back();
+                }
+            });
         });
-        FlowRouter.go('ProjectList.show');
+
+    },
+    'click .createP'() {
+        FlowRouter.go('Individuals.add');
     },
     'click .cancel'(event) {
-        // Prevent default browser form submit
-        event.preventDefault();
-
         FlowRouter.go('ProjectList.show');
     },
     'change select[name="partners"]'(event) {

@@ -1,0 +1,35 @@
+<template name="user_Component">
+    <div class="card individual-card"> 
+      <div class="card-content-indi">
+        <figure class="image is-square">
+              <img class="is-rounded" src="../../../{{ logo }}">
+        </figure>
+        <h5 class="title is-individual">{{ name }}</h5>
+        <h6 class="subtitleIndi">{{ position }}</h6>
+      </div>
+      <footer class="card-footer">
+        <nav>
+          <a href="skype:{{ skype }}?call">
+            <span class="icon is-medium">
+              <i class="fab fa-skype"></i>
+            </span>
+          </a>
+          <a href="mailto:{{ mail }}">
+            <span class="icon is-medium">
+              <i class="fas fa-at"></i>
+            </span>
+          </a>
+          <a href="tel:{{ telephone }}">
+            <span class="icon is-medium">
+                <i class="fas fa-phone"></i>
+            </span>
+          </a>
+          <a href="https://www.linkedin.com/in/{{ linkedIn }}/">
+            <span class="icon is-medium">
+              <i class="fab fa-linkedin-in"></i>
+            </span>
+          </a>
+        </nav>
+      </footer>
+    </div>
+</template>

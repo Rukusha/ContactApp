@@ -6,13 +6,14 @@ import { Projects } from '../../api/projects/projects';
 import { Individuals } from '../../api/individuals/individuals';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Emitter, Events} from '../../api/events/events';
+
 import './project-edit.html';
-
 Template.ProjectEdit_page.onCreated(function onCreatedProjectEditPage() {
-
     Template.ProjectEdit_page.helpers({
         project() {
-            return Projects.find({}, {sort: {name: 1}});
+            const partnerId = FlowRouter.getParam('projectId');
+            return Projects.findOne({_id: partnerId});
         }
     });
     Meteor.subscribe('projects');
@@ -39,33 +40,82 @@ Template.ProjectEdit_page.onCreated(function onCreatedProjectEditPage() {
         }
     });
 //this gets the values from the text fields on the partner edit page
+
     Template.ProjectEdit_page.events({
+        'change .form'() {
+            const ProjectId = FlowRouter.getParam('projectId');
+
+            const name = $("#ProjectNameInvisible").val();
+            const bio = $("#bioInvisible").val();
+            const domain = $("#domainInvisible").val();
+            const logo = $("#logoInvisible").val();
+
+            var nameNew = $("#ProjectName").val();
+            var domainNew = $("#domain").val();
+            var bioNew = $("#bio").val();
+
+            var loggedInUser = Meteor.user();
+
+
+            var UserWhoIssuedEvent = Meteor.user();
+            if (name !== nameNew) {
+                var data = {
+                    nameNew, loggedInUser, ProjectId
+                };
+                Emitter.emit(Events.ITEM_CREATE, {data});
+                Meteor.call("projectsName.update", nameNew, ProjectId);
+                const busServiceUpdateName = {
+                    UserWhoIssuedEvent, nameNew
+                };
+                //Server call to persist the data. 
+                Meteor.call("updateNameBusServiceProject", busServiceUpdateName, function (error) {
+                    if (error) {
+                        $(event.target).find(".error").html(error.reason);
+                    }
+                });
+            } else if (domain !== domainNew) {
+                var data = {
+                    domainNew, loggedInUser, ProjectId
+                };
+                Emitter.emit(Events.ITEM_CREATE, {domainNew, loggedInUser, ProjectId});
+                Meteor.call("projectsDomain.update", domainNew, ProjectId);
+                const busServiceUpdateDomain = {
+                    UserWhoIssuedEvent, domainNew
+                };
+                //Server call to persist the data. 
+                Meteor.call("updateDomBusServiceProject", busServiceUpdateDomain, function (error) {
+                    if (error) {
+                        $(event.target).find(".error").html(error.reason);
+                    }
+                });
+            } else if (bio !== bioNew) {
+                var data = {
+                    bioNew, loggedInUser, ProjectId
+                };
+                Emitter.emit(Events.ITEM_CREATE, {bioNew, loggedInUser, ProjectId});
+                Meteor.call("projectsBio.update", bioNew, ProjectId);
+                const busServiceUpdateBio = {
+                    UserWhoIssuedEvent, bioNew
+                };
+                //Server call to persist the data. 
+                Meteor.call("updateBioBusServiceProject", busServiceUpdateBio, function (error) {
+                    if (error) {
+                        $(event.target).find(".error").html(error.reason);
+                    }
+                });
+            }
+//                Emitter.emit(Events.ITEM_CREATE, {domainNew, loggedInUser});
+//                Meteor.call("projectsDomain.update", domainNew, ProjectIdDom);
+//
+//                Emitter.emit(Events.ITEM_CREATE, {bioNew, loggedInUser});
+//                Meteor.call("projectsBio.update", bioNew, ProjectIdBio);
+
+        },
         'submit .form'(event) {
-            event.preventDefault();
-
-            const target = event.target;
-            const name = target.name.value;
-            const domain = target.domain.value;
-            const bio = target.bio.value;
-            const individuals = target.individuals.value;
-            const logoFile = target.logo && target.logo.files && target.logo.files.length && target.logo.files[0];
-
-            // Insert a task into the collection
-            
-                Images.insert(logoFile, (error, imageDocument) => {
-                const ProjectId = FlowRouter.getParam('projectId');
-                const logo = `/cfs/files/images/${imageDocument._id}`;
-                var doc = Projects.findOne({ _id: ProjectId });
-                Projects.update({ _id:doc._id }, {$set:{name:name, domain:domain, logo:logo, bio:bio, individuals:individuals }});
-                 FlowRouter.go('ProjectList.show');
-            });
+                back();
         },
         'click .cancel'(event) {
-            event.preventDefault();
-
-            const current = FlowRouter.current();
-            const old = current.oldRoute;
-            FlowRouter.go(old ? old.name : 'ProjectList.show');
+            FlowRouter.go('ProjectDetail.edit');
         }
     });
 });

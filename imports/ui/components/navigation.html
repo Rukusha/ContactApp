@@ -1,19 +1,41 @@
-<template name="Navigation_component">
-  <nav class="navbar">
+<template name="Navigation_component">	
+    <div class="flex-container">
+        <div id="header" class="header-scrolled">
+            <nav class="navbar">
 
-    <div class="navbar-brand">
+                <div class="navbar-brand">
 
-      {{> loginButtons}}
+                    {{> loginButtons}}
+                    <h6>Version -1.0.22</h6>
+                </div>
+
+            </nav>
+            <div class="container header-top">
+                <div class="container">
+                    <div class="row align-items-center justify-content-between d-flex">
+                        <div id="nav-menu-container">
+                            <ul class="nav-menu">
+                                <li class="menu-active"><a href="#">Home</a></li>
+                                <li class="{{ activeClass 'ProjectList.show' }}"><a href="/projects">Projects</a></li>
+                                <li class="{{ activeClass 'PartnerList.show' }}"><a href="/partners">Organisation</a></li>
+                                <li class="{{ activeClass 'IndividualsList.show' }}"><a href="/individuals">Individuals</a></li>
+                                <li id="user" class="{{ activeClass 'User.show' }}"><a href="/user">User</a></li>
+                                <li id="admin" class="{{ activeClass 'Admin.show' }}"><a href="/Admin">Admin</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="mobileButton"><img class="mobileButton2" src="../../assets/images/54206.png" alt="" title="" /></button>
+                    <div id="mobileButtonMenu">
+                        <ul class="nav-menu-mobile">
+                            <li class="menu-active"><a href="#">Home</a></li>
+                            <li class="{{ activeClass 'ProjectList.show' }}"><a href="/projects">Projects</a></li>
+                            <li class="{{ activeClass 'PartnerList.show' }}"><a href="/partners">Organisation</a></li>
+                            <li class="{{ activeClass 'IndividualsList.show' }}"><a href="/individuals">Individuals</a></li>
+                            <li><a href="User.show">User</a></li>		          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-  </nav>
-<!--<img src="/assets/images/chair.png">-->
-    <h1 class="mainHeader">ICE Project Application</h1>
-  <div class="tabs is-centered">
-    <ul>
-      <li class="{{ activeClass 'ProjectList.show' }}"><a href="/projects">Projects</a></li>
-      <li class="{{ activeClass 'PartnerList.show' }}"><a href="/partners">Partners</a></li>
-      <li class="{{ activeClass 'IndividualsList.show' }}"><a href="/individuals">Individuals</a></li>
-    </ul>
-  </div>
 </template>

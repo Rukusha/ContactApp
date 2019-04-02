@@ -1,8 +1,46 @@
 <template name="IndividualForm_page">
+    <!-- start banner Area -->
+
+    <section class="banner-area relative" id="home">
+        <div class="overlay overlay-bg"></div>	
+        <div class="container">
+            <div class="row fullscreen d-flex align-items-center justify-content-center">
+                <div class="banner-content col-lg-8">							<h1 class="text-white">
+                        {{ partners.name }}				
+                    </h1>
+                    <p class="pt-20 pb-20 text-white">
+                        Welcome to {{ partners.name }}'s employee creation page. From here you are able to create employee accounts.
+                    </p>		
+                </div>											
+            </div>
+        </div>					
+    </section>
+    <!-- End banner Area -->
 
     <form class="form">
-        <h1 class="title is-1 has-text-centered">New Individual</h1>
-
+        <h1 class="title is-1 has-text-centered">{{partners.name}}</h1>
+        <h3 class=" has-text-centered">Creating A new employee Account</h3>
+    <div class="field">
+      <label class="label">Organisation selection</label>
+      <div class="control">
+        <div class="select">
+          <select name="owner">
+            <option selected value> Select an Organisation to add the new employee to </option>
+            {{#each getAvailablePartners }}
+              <option value="{{ this._id }}">{{ this.name }}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      {{#each getSeletedPartners}}
+        <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
+          {{ this.name }}
+          <button class="delete is-small"></button>
+        </span>
+      {{/each}}
+    </div>
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
@@ -19,13 +57,19 @@
         <div class="field">
             <label class="label">Description</label>
             <div class="control">
-                <textarea class="input" name="bio" placeholder="Description of the individual"></textarea>
+                <textarea class="input inputTextArea" name="bio" placeholder="Description of the individual"></textarea>
             </div>
         </div>
         <div class="field">
             <label class="label">Photo</label>
             <div class="control">
                 <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the photo">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+                <input class="input" type="text" name="emails" placeholder="Email of the admin account">
             </div>
         </div>
         <div class="field has-feedback">
@@ -40,49 +84,27 @@
             <label class="label">LinkedIn</label>
             <input id="at-field-linkedIn" class="input" type="text" name="at_field_linkedIn" placeholder="LinkedIn">
         </div>
-             <div class="field">
-                <label class="label">Projects</label>
-                <div class="control">
-                  <div class="select">
-                    <select name="projects">
-                      <option selected value> Select a project </option>
-                      {{#each getAvailableProjects }}
-                        <option value="{{ this._id }}">{{ this.name }}</option>
-                      {{/each}}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="tags">
-                {{#each getSeletedProjects }}
-                  <span data-id="{{ this._id }}" class="tag is-info is-medium is-project">
-                    {{ this.name }}
-                    <button class="delete is-small"></button>
-                  </span>
-                {{/each}}
-              </div>
-                <div class="field">
-              <label class="label">Partners</label>
-              <div class="control">
+        <div class="field">
+            <label class="label">Projects</label>
+            <div class="control">
                 <div class="select">
-                  <select name="partners">
-                    <option selected value> Select a partner </option>
-                    {{#each getAvailablePartners }}
-                      <option value="{{ this._id }}">{{ this.name }}</option>
-                    {{/each}}
-                  </select>
+                    <select name="projects">
+                        <option selected value> Select a project to add the new employee to </option>
+                        {{#each getAvailableProjects }}
+                        <option value="{{ this._id }}">{{ this.name }}</option>
+                        {{/each}}
+                    </select>
                 </div>
-              </div>
             </div>
-            <div class="tags">
-              {{#each getSeletedPartners }}
-                <span data-id="{{ this._id }}" class="tag is-info is-medium is-partner">
-                  {{ this.name }}
-                  <button class="delete is-small"></button>
-                </span>
-              {{/each}}
-            </div>
-
+        </div>
+        <div class="tags">
+            {{#each getSeletedProjects }}
+            <span data-id="{{ this._id }}" class="tag is-info is-medium is-project">
+                {{ this.name }}
+                <button class="delete is-small"></button>
+            </span>
+            {{/each}}
+        </div>
         <div class="field is-grouped">
             <div class="control">
                 <button type="submit" value="Submit" class="button is-link">Submit</button>

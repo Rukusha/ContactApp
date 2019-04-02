@@ -1,24 +1,66 @@
 <template name="ProjectDetail_page">
-    <div class="detailedImg">
-        <div class="detailedFrame">
-                <div class="controls">
-                    <button class="edit">Edit</button>
-                    <button value="remove" class="remove">Delete</button>
-                </div>
-            <div class="deleteBtn">
-                <img class="projectDetailsImg is-400x400" src="{{ project.logo }}">
-                    <button class="addP"><img class="imgAdd" src="/assets/images/si-glyph-clipboard-checked.svg" alt="icon for adding a project"/></button>
-                    <button class="addPeople"><img class="imgAdd" src="/assets/images/si-glyph-person-plus.svg" alt="icon for adding a person"/></button>
+    <!-- start banner Area -->
+    <section class="banner-area relative" id="home">	
+        <div class="overlay overlay-bg"></div>
+        <div class="container">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="about-content col-lg-12">
+                    <h1 class="text-white">
+                        {{ project.name }}				
+                    </h1>	
+
+                    <p class="text-white link-nav">
+                        {{ project.domain }}</p>
+                </div>											
             </div>
-        <div class="projectDetail">
-            <p>{{ project.bio }}</p>
-            <p>{{ project.domain }}</p>
         </div>
-            <div id="addPeople">
+    </section>
+    <!-- End banner Area -->
+        <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn tabText">Project Information</li>
+        </ul>
+    </div>
+    <!--    start of no access notification-->
+    <div id="overNoAccess">
+        <div id="noAccess">
+            <p>You do not have access. Please sign in with an account that has access</p>
+            <!--        <button class="noAccessBtn">Sign in</button>-->
+            <button class="noAccessBtn-right">Back</button>
+        </div>
+    </div>
+    <!--    end of no access notification-->
+    <div class="detailedImg">
+        <div class="projectDetailedImg">
+            <div class="controls">
+                <button class="edit">Edit</button>
+                <button value="remove" class="remove">Delete</button>
+            </div>
+            <div class="detailedFrame">
+                <div class="deleteBtn">
+                    <img class="projectDetailsImg is-400x400" src="../../{{ project.logo }}">
+                </div>
+                <div class="partnerBio">
+                    <p>{{ project.bio }}</p>
+                </div>       
+            </div>
+        </div>
+    </div>
+    <div id="addPeople">
+        <!-- The Modal -->
+        <div id="modal-Mine">
+            <!-- modal close -->
+            <button type="button" class="close" aria-label="Close">
+                <span id="modalClose" aria-hidden="true">&times;</span>
+            </button>
+            <!-- Modal content -->
+            <div id="addPeoples">
+                <div class="modal-content">
                     <div class="list-group">
-                        <a class="list-group-item active">
+                        <a class="list-group-item active" style="color: white;">
                             Select Employees
                         </a>
+                        <a class="list-group-item createP" style="color: #6dc18d;">Create new Employee</a>
                         {{#each individualsAdd}}
                         <a class="list-group-item individualAdd" name="peoplelist" value="{{_id}}">
                             {{ name }}
@@ -26,47 +68,60 @@
                         {{/each}}
                     </div>
                 </div>
-                <div id="addProject">
+            </div>
+            <div id="addProject">
+                <div class="modal-content">
                     <div class="list-group">
-                        <a class="list-group-item active">
-                            Select Projects
+                        <a class="list-group-item active" style="color: white;">
+                            Select Organisation
                         </a>
+                        <a class="list-group-item createProject" name="createProject" style="color: #6dc18d;">Create new Organisation</a>
                         {{#each projectsAdd}}
                         <a class="list-group-item projectAdd" name="projectlist" value="{{_id}}">{{ name }}</a>
                         {{/each}}
                     </div>
                 </div>
-        </div>
-    </div>
-        <div class="tabsProInd tabProject">
-        <a>Partners</a>
-    </div>
-    <div class="tabsProInd tabIndividual">
-        <a>Individuals</a>
-    </div>
-    <div id="projectList">
-            <h1 class="individual-projects">Partners involved with {{ project.name }}</h1>
-
-    {{#if hasPartners}}
-    <div class="flex-container">
-        {{#each partners}}
-        {{> Partner_component}}
-        {{/each}}
-    </div>
-    {{/if}}
-    </div>
-    <div id="employees">
-        <div class="individual-projects">
-            <h1>Individuals working on {{ project.name }}</h1>
-        </div>
-        {{#if hasIndividual}}
-        <div class="employeesInd">
-            <div class="flex-container">
-                {{#each individuals}}
-                {{> Individual_component}}
-                {{/each}}
             </div>
         </div>
-        {{/if}}
+    </div>
+        <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn tabText"></li>
+        </ul>
+    </div>
+    <div class="flex-container">
+        <div class="mini-container">
+            <div id="projectList">
+                <div class="individual-projects">
+                    <button class="addP"><img class="imgAdd" src="/assets/images/partners.png" alt="icon for adding a project"/></button>
+                    <h1 class="hText">Organisation's involved with {{ project.name }}</h1>
+                </div>
+
+                {{#if hasPartners}}
+                <div class="flex-container">
+                    {{#each partners}}
+                    {{> Partner_component}}
+                    {{/each}}
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="mini-container-right">
+            <div id="employees">
+                <div class="individual-projects">
+                    <button class="addPeople"><img class="imgAdd" src="/assets/images/si-glyph-person-plus.png" alt="icon for adding a person"/></button>
+                    <h1  class="hText">Individuals working on {{ project.name }}</h1>
+                </div>
+                {{#if hasIndividual}}
+                <div class="employeesInd">
+                    <div class="flex-container">
+                        {{#each individuals}}
+                        {{> Individual_component}}
+                        {{/each}}
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
     </div>
 </template>

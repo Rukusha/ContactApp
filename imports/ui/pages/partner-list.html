@@ -1,13 +1,43 @@
 <template name="PartnerList_page">
+    <!-- start banner Area -->
+    <section class="banner-area relative" id="home">
+        <div class="overlay overlay-bg"></div>	
+        <div class="container">
+            <div class="row fullscreen d-flex align-items-center justify-content-center">
+                <div class="banner-content col-lg-8">
+                    <h6 class="text-white">Information Catalyst's</h6>
+                    <h1 class="text-white">
+                        Contact Application				
+                    </h1>
+                    <p class="pt-20 pb-20 text-white">
+                        Welcome to the Organisation page. From here you are able to view the Organisation's involved in the Horizon 2020 Research and Innovation programme.
+                    </p>		
+                </div>											
+            </div>
+        </div>					
+    </section>
+    <!-- End banner Area -->
+        <!--    start of no access notification-->
+    <div id="overNoAccess">
+        <div id="noAccess">
+            <p>You do not have access. Please sign in with an account that has access</p>
+            <!--        <button class="noAccessBtn">Sign in</button>-->
+            <button class="noAccessBtn-right">Back</button>
+
+        </div>
+    </div>
+    <!--    end of no access notification-->
     <div class="tabs is-centered">
         <ul>
-            <li class="addBtn"><a href="/partner/adds">Add</a></li>
+            <li class="addBtn tabText">Organisation</li>
         </ul>
-    </div>
+    </div> 
+    <a class="addAdmin"><img class="plus" src="../../assets/images/partners.png" alt="" title="" /></a>
+    <div class="flexHolder">
     <div class="flex-container">
         {{#each partners}}
         {{> Partner_component}}
         {{/each}}
     </div>
-
+    </div>
 </template>

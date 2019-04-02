@@ -13,7 +13,12 @@ Template.IndividualsEdit_page.onCreated(function onCreatedIndividualsEditPage() 
         }
     });
     Meteor.subscribe('individuals');
-
+    Template.IndividualsEdit_page.helpers({
+        individuals() {
+            const partnerId = FlowRouter.getParam('individualsId');
+            return Individuals.findOne({_id: partnerId});
+        }
+    });
 //this gets the values from the text fields on the partner edit page
     Template.IndividualsEdit_page.events({
         'submit .form'(event) {
@@ -30,7 +35,7 @@ Template.IndividualsEdit_page.onCreated(function onCreatedIndividualsEditPage() 
             //this takes the values for the logo
             Images.insert(logoFile, (error, imageDocument) => {
                 const IndividualsId = FlowRouter.getParam('individualsId');
-                const logo = `/cfs/files/images/${imageDocument._id}`;
+                const logo = `cfs/files/images/${imageDocument._id}`;
                 var doc = Individuals.findOne({_id: IndividualsId});
                 Individuals.update({_id: doc._id}, {$set: {name: name, logo: logo, bio: bio, skype: skype, position: position, telephone: telephone, linkedIn: linkedIn}});
                 FlowRouter.go('IndividualsList.show');

@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Projects } from '../../projects/projects';
 import { Partners } from '../partners';
+import { Images } from '../../images/images';
 
 
 Meteor.publish('partners', function partnersPublication() {
-
     return Partners.find({});
 });
 
@@ -18,4 +18,19 @@ Partners.allow({
     remove() {
         return true;
     }
+});
+
+Images.allow({
+    insert: function(){
+    return true;
+    },
+    update: function(){
+    return true;
+    },
+    remove: function(){
+    return true;
+    },
+    download: function(){
+    return true;
+   }
 });

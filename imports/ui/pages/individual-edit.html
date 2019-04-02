@@ -1,12 +1,10 @@
 <template name="IndividualsEdit_page">
     <form class="form">
-        <h1 class="title is-1 has-text-centered">Edit {{ individualsId.name }}</h1>
-        <span> {{ logo }} </span>
-
+        <h1 class="title is-1 has-text-centered">Edit {{ individuals.name }}</h1>
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
-                <input class="input" type="text" name="name" placeholder="Name of the individual">
+                <input class="input" type="text" name="name" placeholder="{{ individuals.name }}">
             </div>
         </div>
         <div class="field">
@@ -18,26 +16,26 @@
                <div class="field">
             <label class="label">Position</label>
             <div class="control">
-                <input class="input" type="text" name="position" placeholder="Position of the individual">
+                <input class="input" type="text" name="position" placeholder="{{ individuals.position }}">
             </div>
         </div>
         <div class="field">
             <label class="label">Bio</label>
             <div class="control">
-                <input class="input" type="text" name="bio" placeholder="Description of the individual">
+                <textarea class="input inputTextArea" type="text" name="bio" placeholder="{{ individuals.bio }}"></textarea>
             </div>
         </div>
         <div class="field has-feedback">
             <label class="label">Telephone</label>
-            <input id="at-field-telephone" class="input" type="tel" name="at_field_telephone" placeholder="Telephone">
+            <input id="at-field-telephone" class="input" type="tel" name="at_field_telephone" placeholder="{{ individuals.telephone }}">
         </div>
         <div class="field has-feedback">
             <label class="label">Skype</label>
-            <input id="at-field-skype" class="input" type="text" name="at_field_skype" placeholder="Skype">
+            <input id="at-field-skype" class="input" type="text" name="at_field_skype" placeholder="{{ individuals.skype }}">
         </div>
         <div class="field has-feedback">
             <label class="label">LinkedIn</label>
-            <input id="at-field-linkedIn" class="input" type="text" name="at_field_linkedIn" placeholder="LinkedIn">
+            <input id="at-field-linkedIn" class="input" type="text" name="at_field_linkedIn" placeholder="{{ individuals.linkedIn }}">
         </div>
         <div class="field is-grouped">
             <div class="control">

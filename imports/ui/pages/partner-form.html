@@ -1,16 +1,33 @@
-<template name="PartnerForm_page">
+        <template name="PartnerForm_page">
+                          <!-- start banner Area -->
+              
+    <section class="banner-area relative" id="home">
+        <div class="overlay overlay-bg"></div>	
+        <div class="container">
+            <div class="row fullscreen d-flex align-items-center justify-content-center">
+                <div class="banner-content col-lg-8">							<h1 class="text-white">
+                        {{ partner.name }}				
+                    </h1>
+                    <p class="pt-20 pb-20 text-white">
+                        Welcome to the Organisation's creation page. From here you are able to create An Organisation and their Admin account accounts.
+                    </p>		
+                </div>											
+            </div>
+        </div>					
+    </section>
+    <!-- End banner Area -->
     <form class="form">
-        <h1 class="title is-1 has-text-centered">New Partner</h1>
+        <h1 class="title is-1 has-text-centered">New Organisation</h1>
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
-                <input class="input" type="text" name="name" placeholder="Name of the partner">
+                <input class="input" type="text" name="name" placeholder="Name of the Organisation">
             </div>
         </div>
         <div class="field">
             <label class="label">Description</label>
             <div class="control">
-                <textarea class="input" name="bio" placeholder="Description of the partner"></textarea>
+                <textarea class="input inputTextArea" name="bio" placeholder="Description of the Organisation"></textarea>
             </div>
         </div>
         <div class="field">
@@ -66,7 +83,7 @@
                 <button type="submit" value="Submit" class="button is-link">Submit</button>
             </div>
             <div class="control">
-                <button class="button is-text">Cancel</button>
+                <button class="cancle button is-text">Cancel</button>
             </div>
         </div>
     </form>

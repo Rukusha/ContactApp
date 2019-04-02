@@ -1,75 +1,38 @@
 <template name="ProjectEdit_page">
   <form class="form">
-    <h1 class="title is-1 has-text-centered">Edit Project</h1>
+    <h1 class="title is-1 has-text-centered">Edit {{ project.name }}</h1>
     <div class="field">
       <label class="label">Name</label>
       <div class="control">
-        <input class="input" type="text" name="name" placeholder="Name of the project">
+        <input id="ProjectName" class="input" type="text" name="name" placeholder="{{ project.name }}" value="{{ project.name }}">
+                <input id="ProjectNameInvisible" class="input" type="text" name="name" placeholder="{{ project.name }}" value="{{ project.name }}">
+
       </div>
     </div>
     <div class="field">
-      <label class="label">Domain</label>
+      <label class="label">Website</label>
       <div class="control">
-        <input class="input" type="text" name="domain" placeholder="Domain of the project">
+        <input id="domainInvisible" class="input" type="text" name="domain" value="{{ project.domain }}">
+                <input id="domain" class="input" type="text" name="domain" value="{{ project.domain }}">
+
       </div>
     </div>
     <div class="field">
       <label class="label">Description</label>
       <div class="control">
-        <input class="input" type="text" name="bio" placeholder="Description of the project">
+          <textarea id="bioInvisible" class="input inputTextArea" type="text" name="bio" value="{{ project.bio }}"></textarea>
+                    <textarea id="bio" class="input inputTextArea" type="text" name="bio" value="{{ project.bio }}"></textarea>
+
       </div>
     </div>
     <div class="field">
       <label class="label">Logo</label>
       <div class="control">
-        <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
+        <input id="logoInvisible" class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
+                <input id="logo" class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
+
       </div>
     </div>
-
-<!--    <div class="field">
-      <label class="label">Partners</label>
-      <div class="control">
-        <div class="select">
-          <select name="partners">
-            <option selected value> Select a partner </option>
-            {{#each getAvailablePartners }}
-              <option value="{{ this._id }}">{{ this.name }}</option>
-            {{/each}}
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="tags">
-      {{#each getSeletedPartners }}
-        <span data-id="{{ this._id }}" class="tag is-info is-medium is-partner">
-          {{ this.name }}
-          <button class="delete is-small"></button>
-        </span>
-      {{/each}}
-    </div>
-
--->    <div class="field">
-      <label class="label">Individuals</label>
-      <div class="control">
-        <div class="select">
-          <select name="individuals">
-            <option selected value> Select an individual </option>
-            {{#each getAvailableIndividuals }}
-              <option value="{{ this._id }}">{{ this.name }}</option>
-            {{/each}}
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      {{#each getSeletedIndividuals}}
-        <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
-          {{ this.name }}
-          <button class="delete is-small"></button>
-        </span>
-      {{/each}}
-    </div>
-
     <div class="field is-grouped">
       <div class="control">
         <button type="submit" value="Submit" class="button is-link">Submit</button>

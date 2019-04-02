@@ -1,11 +1,11 @@
 <template name="PartnerEditForm_page">
     <form class="form">
-        <h1 class="title is-1 has-text-centered">Edit Partner</h1>
+        <h1 class="title is-1 has-text-centered">Edit {{ partners.name }}</h1>
 
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
-                <input class="input" type="text" name="name" placeholder="Name of the partner">
+                <input class="input" type="text" name="name" placeholder="{{ partners.name }}">
             </div>
         </div>
         <div class="field">
@@ -17,7 +17,25 @@
         <div class="field">
             <label class="label">Description</label>
             <div class="control">
-                <input class="input" type="text" name="bio" placeholder="Description of the partner">
+                <textarea class="input inputTextArea" type="text" name="bio" placeholder="{{ partners.bio }}"></textarea>
+            </div>
+        </div>
+                <div class="field">
+            <label class="label">LinkedIn</label>
+            <div class="control">
+                <input class="input" type="text" name="linkedin" placeholder="{{ partners.LinkedIn }}">
+            </div>
+        </div>
+                <div class="field">
+            <label class="label">Facebook</label>
+            <div class="control">
+                <input class="input" type="text" name="facebook" placeholder="{{ partners.Facebook }}">
+            </div>
+        </div>
+                <div class="field">
+            <label class="label">Twitter</label>
+            <div class="control">
+                <input class="input" type="text" name="twitter" placeholder="{{ partners.Twitter }}">
             </div>
         </div>
         <div class="field">

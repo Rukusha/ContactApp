@@ -1,0 +1,2 @@
+FROM informationcatalyst/meteor-launchpad
+

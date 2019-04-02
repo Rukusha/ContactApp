@@ -11,9 +11,6 @@ Template.Partner_component.events({
     event.stopPropagation();
 
     // Go to the project detail page
-    FlowRouter.go('PartnerDetails.show', { partnerId: this._id.valueOf() });
-  },
-  'click .delete'() {
-    Meteor.call('partner.remove', this._id.valueOf());
+    FlowRouter.go('PartnerDetails.show', { partnerId: this._id.valueOf()});
   }
 });

@@ -6,7 +6,15 @@ import { Projects } from '../../api/projects/projects';
 import { Individuals } from '../../api/individuals/individuals';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Roles }  from 'meteor/alanning:roles';
+
 import './partner-form.html';
+
+
+function Back() {
+    window.history.back();
+}
+;
 Template.PartnerForm_page.onCreated(function onCreatedPartnerFormPage() {
 
     this.subscribe('projects');
@@ -48,9 +56,12 @@ Template.PartnerForm_page.onCreated(function onCreatedPartnerFormPage() {
 
     Template.PartnerForm_page.events({
         'submit .form'(event) {
+            var loggedInUser = Meteor.user();
+
             event.preventDefault();
             const target = event.target;
             const name = target.name.value;
+            const owner = loggedInUser;
             const bio = target.bio.value;
             const projects = Template.instance().selectedProjects.get().map(({ _id }) => _id);
             const individuals = Template.instance().selectedIndividuals.get().map(({ _id }) => _id);
@@ -58,17 +69,25 @@ Template.PartnerForm_page.onCreated(function onCreatedPartnerFormPage() {
             const Id = FlowRouter.getParam('partnerId');
 
             Images.insert(logoFile, (error, imageDocument) => {
-                const logo = `/cfs/files/images/${imageDocument._id}`;
+                const logo = `cfs/files/images/${imageDocument._id}`;
                 var loggedInUser = Meteor.user();
                 if (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) {
-                    console.log("Partner added");
-                    Meteor.call('partners.insert', {name, bio, logo, projects, individuals});
-                    FlowRouter.go('PartnerList.show');
-                } else {
-                    console.log("Access restricted");
+                    Meteor.call('partners.insert', {name, owner, bio, logo, projects, individuals});
                 }
+                var UserWhoIssuedEvent = Meteor.user();
+                const busServicePartner = {
+                    UserWhoIssuedEvent, name, owner, bio, logo, projects, individuals
+
+                };
+                //Server call to persist the data. 
+                Meteor.call("createBusServicePartner", busServicePartner, function (error, result) {
+                    if (error) {
+                        $(event.target).find(".error").html(error.reason);
+                    } else {
+                        Back();
+                    }
+                });
             });
-            FlowRouter.go('PartnerList.show');
         },
         'click .cancel'(event) {
             event.preventDefault();

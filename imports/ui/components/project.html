@@ -2,15 +2,11 @@
     <div class="card project">
         <div class="card-content">
             <article class="media">
-                {{#if logo }}
-                <figure class="media-left">
-                    <img class="image logo" src="../../{{ logo }}">
-                </figure>
-                {{else}}
-                <figure class="media-left">
-                    <img class="image logo" src="/{{ logo }}">
-                </figure>
-                {{/if}}
+                    {{#if imgLoaded}}
+                    <img src="../../{{ logo }}">
+                    {{else}}
+                    <img class="is-rounded" src="assets/images/placeholders/imgholdr-image.png">
+                    {{/if}}
             </article>
             <article class="media">
                 <div class="media-content-projects">

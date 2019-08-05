@@ -123,12 +123,11 @@ p {
     color: #6dc18d;
 }
 .form{
-    width: 40%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     background-color: white;
     padding: 30px;
-    margin-top: 50px;
 }
 #ProjectNameInvisible{
     display: none;
@@ -142,9 +141,32 @@ p {
 #logoInvisible{
     display: none;
 }
+#linkedInInvisible{
+    display: none;
+}
+#facebookInvisible{
+    display: none;
+}
+#TwitterInvisible{
+    display: none;
+}
+#positionInvisible{
+    display: none;
+}
+#at-field-telephoneInvisible{
+    display: none;
+}
+#at-field-skypeInvisible{
+    display: none;
+}
+#at-field-linkedInInvisible{
+    display: none;
+}
+#signup-link{
+    display: none;
+}
 .card {
     width: 200px;
-    height: 263px;
     cursor: pointer;
     margin: 0 auto 2.5rem;
     margin-top: 10px;
@@ -155,13 +177,13 @@ p {
         margin-top: 10px;
         padding: 20px;
         width: 200px;
-        height: 263px;
+        height: 285px;
         text-align: center;
 
         .card-content {
 
             .image {
-                /*                margin-bottom: 1.5rem;*/
+                /*margin-bottom: 1.5rem;*/
             }
         }
         .card-footer > nav {
@@ -189,9 +211,8 @@ p {
 .projectDetailsImg{
     width: 204px;
     height: 204px;
-    position: absolute;
-    top: 12px;
-    left: 114px;
+    position: relative;
+
 }
 .image{
     width: 160px;
@@ -278,7 +299,6 @@ p {
 }
 .card-content:hover{
     background-color: #6dc18d;
-    height: 263px;
 }*
 .card .media:not(:last-child) {
     margin-bottom: 0;
@@ -295,7 +315,7 @@ p {
     padding-top: 90px;
 }
 .formOrg{
-    width: 50%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -347,11 +367,9 @@ img{
 .detailedImg {
     text-align: center;
     background-color: whitesmoke;
-    height: 40vh;
 }
 .projectsIcon{
-    position: absolute;
-    left: 3%;
+margin-right: 10px;
 }
 .individualsBio{
     width: 50%;
@@ -372,7 +390,6 @@ img{
 }
 .partnerBio p{
     padding: 10px;
-    padding-right: 17%;
 }
 
 .projectDetail{
@@ -405,12 +422,14 @@ img{
     margin-right: auto;
 }
 .profileCard{
-    width: 94%;
-    height: 228px;
+    width: 100%;
+    height: 100%;;
     background-color: #2d2d2d;
     margin-left: auto;
     margin-right: auto;
     color: #ffffff;
+    padding: 1%;
+    min-height: 214px;
 }
 .deleteBtn{
     background-color: #4b4b4b00;
@@ -453,7 +472,6 @@ img{
     padding-top: 25px;
     margin-top: 5%;
     margin-bottom: 5%;
-    height: 288px;
 }
 .ProjectCard{
     width: 50%;
@@ -466,7 +484,8 @@ img{
     right: 0;
     float: left;
     transition: all 0.5s;
-    z-index: 9;
+    z-index: 60;
+    height: 56px;
     /*      background-color: #000000;*/
 }
 .header-top{
@@ -486,6 +505,7 @@ img{
     margin-top: 7px;
     margin-right: auto;
     z-index: 11;
+    position: fixed;
 }
 .navbar-brand {
     display: inline-block;
@@ -543,19 +563,19 @@ img{
     z-index: 20;
 }
 .addP{
+    position: absolute;
     float: right;
-    margin-top: 5px;
-    margin-right: 3px;
     padding: 0;
     font-size: inherit;
     line-height: inherit;
     right: 51%;
 }
+.projectList{
+    right: 1%;
+}
 .addPeople{
     position: absolute;
     float: right;
-    margin-top: 5px;
-    margin-right: 3px;
     padding: 0;
     font-size: inherit;
     line-height: inherit;
@@ -629,6 +649,10 @@ img{
 .title is-4{
     font-size: 22px;
 }
+.title.is-1 {
+    padding-top: 30px;
+    font-size: 3rem;
+}
 .imgAdd{
     width: 73px;
     height: 73px;
@@ -640,7 +664,7 @@ img{
     font-size: 15px;
 }
 .flexHolder{
-    margin-top: 41px;
+    margin-top: 76px;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -671,10 +695,10 @@ img{
     padding-right: 0px;
 }
 .title.is-4 {
-    font-size: 22px;
+    font-size: 2rem;
 }
 .title.is-individual {
-    padding-top: 0px;
+    padding-top: 10px;
     font-size: 22px;
 }
 .subtitleIndi{
@@ -737,18 +761,35 @@ button{
 .projectDetailedImg{
     height: 338px;
 }
+
 #mobileButtonMenu{
-    background-color: #191919c7;
-    width: 200px;
+    background-color: #191919;
     height: 130px;
     display: none;
-    margin-top: 22px;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 6%;
+    text-align: center;
+    font: 600 2.2rem 'Roboto Slab', sans-serif;
 
+}
+#OrgButton{
+    display: none;
+}
+#adminBtn{
+    display: none;
+}
+#projBtn{
+    display: none;
 }
 #mobileButtonMenu{
     display: none;
 }
 #CompanyForm{
+    display: block;
+}
+#cAdminForm{
     display: none;
 }
 .align-items-center {
@@ -788,7 +829,7 @@ button{
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgba(0, 0, 0, 0.76); /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -818,7 +859,9 @@ button{
   z-index: 200;
   background-color: #ffffff;
 }
-
+.restoreData:hover{
+    color: #09da11;
+}
 .close:hover,
 .close:focus {
   color: #000;
@@ -839,6 +882,76 @@ button{
 .createP:hover{
     color: #b1b1b1;;
 }
+//=== Drawing effect
+
+@mixin btn-border-drawing($color: #ccc, $hover: black, $width: 2px, $vertical: top, $horizontal: left, $duration: 0.25s) {
+    box-shadow: inset 0 0 0 $width $color;
+    color: $color;
+    transition: color $duration $duration/3;
+    position: relative;
+    
+    &::before,
+    &::after {
+      border: 0 solid transparent;
+      box-sizing: border-box;
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      width: 0; height: 0;
+      
+      #{$vertical}: 0; 
+      #{$horizontal}: 0;
+    }
+  
+    &::before {
+      $h-side: if($horizontal == 'left', 'right', 'left');
+      
+      border-#{$vertical}-width: $width;
+      border-#{$h-side}-width: $width;
+    }
+    
+    &::after {
+      $v-side: if($vertical == 'top', 'bottom', 'top');
+      
+      border-#{$v-side}-width: $width;
+      border-#{$horizontal}-width: $width;
+    }
+    
+    &:hover {
+      color: $hover;
+      
+      &::before,
+      &::after {
+        border-color: $hover;
+        transition: border-color 0s, width $duration, height $duration;
+        width: 100%;
+        height: 100%;
+      }
+      
+      &::before { transition-delay: 0s, 0s, $duration; }
+      
+      &::after { transition-delay: 0s, $duration, 0s; }
+    }
+  }
+  
+  .draw-border {
+    @include btn-border-drawing(#a0a0a0, #6dc18d, 6px, bottom, right);
+  }
+  
+  //=== Button styling, semi-ignore
+  .btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1.5;
+    font: 700 1.2rem 'Roboto Slab', sans-serif;
+    padding: 1em 2em;
+    letter-spacing: 0.05rem;
+    font-size: 35px;
+    
+    &:focus { outline: 2px dotted #55d7dc; }
+  }
+  
 @media only screen and (max-width: 900px) {
     .projects{
         width: 100%;
@@ -852,7 +965,34 @@ button{
         display: none;
     }
 }
-
+@media only screen and (max-width: 830px){
+    .adminButtonsHolder{
+      width: 80%;
+    }
+    .noo{
+        width: 205px;
+                position: fixed;
+        left: 10%;
+    }
+    .yes{
+        width: 205px;
+                position: fixed;
+        right: 10%;
+    }
+  }
+@media only screen and (max-width: 700px){
+  .nav-menu-mobile{
+    background-color: #19191900;
+  }
+  .restoreData{
+      width: 80%;
+  }
+}
+@media (min-width: 700px){
+  .nav-menu-mobile{
+    display: none;
+  }
+}
 @media (max-width: 700px){
     #nav-menu-container {
         display: none;
@@ -867,7 +1007,6 @@ button{
         padding: 0;
         background-color: #ffffff;
         float: right;
-        margin-top: -22px;
     }
     .mobileButton2{
         display: block;
@@ -881,14 +1020,42 @@ button{
     .nav-menu-mobile{
         font-size: 20px;
         margin-left: 10px;
+        margin-top: 2%;
     }
-    .plus {
-        width: 30px;
+    .plus{
+        width: 65px;
         float: right;
-        height: 30px;
+        height: 65px;
         position: absolute;
         cursor: pointer;
         padding: 0;
     }
     
+}
+@media (max-width: 540px){
+    .no{
+        width: 150px;
+        position: fixed;
+        left: 10%;
+        font-size: 24px;
+    }
+    .noo{
+        width: 150px;
+        position: fixed;
+        left: 10%;
+        font-size: 24px;
+    }
+    .yes{
+        width: 150px;
+        position: fixed;
+        right: 10%;
+        font-size: 24px;
+    }
+    .textAdmiHolder{
+        padding: 20px;
+        margin: 0px;
+    }
+    .formBox {
+        width: 75%;
+    }
 }

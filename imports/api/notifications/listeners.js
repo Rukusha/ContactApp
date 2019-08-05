@@ -5,7 +5,7 @@ import { EventsCollection } from '../events/events';
 import { Individuals } from '../individuals/individuals';
 
 Emitter.on(Events.ITEM_CREATE, function(data) { 
-EventsCollection.insert({data});
+EventsCollection.insert(data);
 
 });
 Emitter.on(EventsCreated.ITEM_CREATED, function(data) { 

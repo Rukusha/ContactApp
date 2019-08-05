@@ -3,7 +3,11 @@
         <div class="card-content">
             <article class="media">
                 <figure class="media-left">
-                    <img src="../../{{ logo }}">
+                        {{#if imgLoaded}}
+                        <img src="../../{{ logo }}">
+                        {{else}}
+                        <img class="is-rounded" src="assets/images/placeholders/imgholdr-image.png">
+                        {{/if}}
                 </figure>
             </article>
             <article class="media">

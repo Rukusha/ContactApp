@@ -1,47 +1,91 @@
 <template name="ProjectEdit_page">
+    <div class="formBox">
   <form class="form">
-    <h1 class="title is-1 has-text-centered">Edit {{ project.name }}</h1>
+    <h1 class="title is-1 has-text-centered">Edit {{ projects.name }}</h1>
     <div class="field">
-      <label class="label">Name</label>
+        <label class="label">Name</label>
+        <div class="control">
+          <input id="ProjectName" class="input" type="text" name="name"  value="{{ projects.name }}">
+          <input id="ProjectNameInvisible" class="input" type="text" name="nameOld" value="{{ projects.name }}">
+        </div>
+      </div>
+      <div class="field">
+          <label class="label">Logo</label>
+          <div class="control">
+              <img src="../../{{ projects.logo }}">
+            <input id="logo" class="input" type="file" name="logo"  accept="image/*" placeholder="{{projects.logo}}">
+          </div>
+        </div>
+    <div class="field">
+      <label class="label">Admin selection</label>
       <div class="control">
-        <input id="ProjectName" class="input" type="text" name="name" placeholder="{{ project.name }}" value="{{ project.name }}">
-                <input id="ProjectNameInvisible" class="input" type="text" name="name" placeholder="{{ project.name }}" value="{{ project.name }}">
-
+        <div class="select">
+          <select id="admin" value="{{projects.admin}}" name="admin">
+            <option selected value> Select an Admin for the project </option>
+            {{#each getAvailableIndividuals }}
+              <option value="{{ this._id }}">{{ this.name }}</option>
+            {{/each}}
+          </select>
+        </div>
+          <div class="projectNewPerson">
+            <button class="addPeople createP"><img class="imgAdd" src="../../assets/images/si-glyph-person-plus.png" alt="icon for adding a person"/></button>
+          </div>
       </div>
     </div>
     <div class="field">
+      {{#each getSeletedIndividuals}}
+        <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
+          {{ this.name }}
+          <button class="delete is-small"></button>
+        </span>
+      {{/each}}
+    </div>
+
+    <div class="field">
       <label class="label">Website</label>
       <div class="control">
-        <input id="domainInvisible" class="input" type="text" name="domain" value="{{ project.domain }}">
-                <input id="domain" class="input" type="text" name="domain" value="{{ project.domain }}">
-
+        <input id="domain" class="input" type="text" name="domain" value="{{ projects.domain }}">
+        <input id="domainInvisible" class="input" type="text" name="domainOld" value="{{ projects.domain }}">
       </div>
     </div>
     <div class="field">
       <label class="label">Description</label>
       <div class="control">
-          <textarea id="bioInvisible" class="input inputTextArea" type="text" name="bio" value="{{ project.bio }}"></textarea>
-                    <textarea id="bio" class="input inputTextArea" type="text" name="bio" value="{{ project.bio }}"></textarea>
-
+          <textarea id="bioInvisible" class="input inputTextArea" type="text" name="bio" value="{{ projects.bio }}"></textarea>
+          <textarea id="bio" class="input inputTextArea" type="text" name="bioOld" value="{{ projects.bio }}" placeholder="{{project.bio}}"></textarea>
       </div>
     </div>
-    <div class="field">
-      <label class="label">Logo</label>
-      <div class="control">
-        <input id="logoInvisible" class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
-                <input id="logo" class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
-
+    <div class="list-group">
+      <a class="list-group-item active" style="color: white;">
+          Remove Individuals
+      </a>
+      {{#each individualsAdd}}
+      <div class="individualsDelete">
+          <a class="list-group col-sm-8" name="projectlist" value="{{_id}}">{{ name }}</a>
+          <a id="deleteBtn" class="col-sm-4">Remove</a>
       </div>
-    </div>
+      {{/each}}
+  </div>
+  <div class="list-group">
+      <a class="list-group-item active" style="color: white;">
+          Remove Partners
+      </a>
+      {{#each partnersAdd}}
+      <div class="partnerDelete">
+          <a class="list-group col-sm-8" name="projectlist" value="{{_id}}">{{ name }}</a>
+          <a id="deleteBtn" class="col-sm-4">Remove</a>
+      </div>
+      {{/each}}
+  </div>
     <div class="field is-grouped">
       <div class="control">
-        <button type="submit" value="Submit" class="button is-link">Submit</button>
+        <button id="logoSubmit" type="submit" value="Submit" class="button is-link">Submitlogo</button>
+        <button id="logoSubmitNone" class="logoSubmit button is-link">Submit</button>
       </div>
       <div class="control">
-        <button class="button is-text">Cancel</button>
+        <button class="button is-text Cancel">Cancel</button>
       </div>
     </div>
-
   </form>
-
-</template>
+  </div>
+</template>                                                                                   

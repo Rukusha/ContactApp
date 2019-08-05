@@ -37,15 +37,20 @@
                 <button value="remove" class="remove">Delete</button>
             </div>
             <div class="detailedFrame">
+               <div class="profileCard">
                 <div class="deleteBtn">
-                    <img class="projectDetailsImg is-400x400" src="../../{{ project.logo }}">
+                    {{#if imgLoaded}}
+                        <img class="projectDetailsImg is-400x400" src="../../{{ project.logo }}">
+                    {{else}}
+                        <img class="is-rounded" src="assets/images/placeholders/imgholdr-image.png">
+                    {{/if}}
                 </div>
                 <div class="partnerBio">
                     <p>{{ project.bio }}</p>
                 </div>       
             </div>
+            </div>
         </div>
-    </div>
     <div id="addPeople">
         <!-- The Modal -->
         <div id="modal-Mine">
@@ -53,22 +58,45 @@
             <button type="button" class="close" aria-label="Close">
                 <span id="modalClose" aria-hidden="true">&times;</span>
             </button>
-            <!-- Modal content -->
+            <!-- Modal content all employees-->
             <div id="addPeoples">
                 <div class="modal-content">
                     <div class="list-group">
                         <a class="list-group-item active" style="color: white;">
                             Select Employees
+                            <label class="EmployeeCheckbox">
+                                All employees
+                              </label>
                         </a>
                         <a class="list-group-item createP" style="color: #6dc18d;">Create new Employee</a>
                         {{#each individualsAdd}}
-                        <a class="list-group-item individualAdd" name="peoplelist" value="{{_id}}">
-                            {{ name }}
-                        </a>
-                        {{/each}}
+                            <a class="list-group-item individualAdd" name="peoplelist" value="{{_id}}">
+                                {{ name }}
+                            </a>
+                            {{/each}}
                     </div>
                 </div>
             </div>
+            <!-- Modal content company specific employees-->
+            <div id="addPeoplesComp">
+                <div class="modal-content">
+                    <div class="list-group">
+                        <a class="list-group-item active" style="color: white;">
+                            Select Employees
+                            <label class="EmployeeCheckbox">
+                                Show all employees
+                              </label>
+                        </a>
+                        <a class="list-group-item createP" style="color: #6dc18d;">Create new Employee</a>
+                            {{#each individualsAdd}}
+                            <a class="list-group-item individualAdd" name="peoplelist" value="{{_id}}">
+                                {{name }}
+                            </a>
+                            {{/each}}
+                    </div>
+                </div>
+            </div>
+            <!-- Modal content projects-->
             <div id="addProject">
                 <div class="modal-content">
                     <div class="list-group">
@@ -90,6 +118,7 @@
         </ul>
     </div>
     <div class="flex-container">
+            <div class="bottomCard">
         <div class="mini-container">
             <div id="projectList">
                 <div class="individual-projects">
@@ -98,10 +127,12 @@
                 </div>
 
                 {{#if hasPartners}}
+                <div class="projects">
                 <div class="flex-container">
                     {{#each partners}}
                     {{> Partner_component}}
                     {{/each}}
+                </div>
                 </div>
                 {{/if}}
             </div>
@@ -123,5 +154,7 @@
                 {{/if}}
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </template>

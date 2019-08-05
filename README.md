@@ -6,7 +6,7 @@ You can find contact information for each individual and each partner on their r
 To run/update the application you will need to do the following.
 
 ```bash
-ssh -p 9245 user@icemain.hopto.org
+ssh user@icemain.hopto.org
 cd /opt/meteor/ic-projects
 docker-compose down
 git pull

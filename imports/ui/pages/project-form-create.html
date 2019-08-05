@@ -1,0 +1,186 @@
+<template name="ProjectFormCreate_page">
+              <!-- start banner Area -->
+    <section class="banner-area relative" id="home">
+        <div class="overlay overlay-bg"></div>	
+        <div class="container">
+            <div class="row fullscreen d-flex align-items-center justify-content-center">
+                <div class="banner-content col-lg-8">							
+                  <h1 class="text-white">
+                        {{ partner.name }}				
+                    </h1>
+                    <p class="pt-20 pb-20 text-white">
+                        Welcome to the project creation page. From here you are able to create projects.
+                    </p>		
+                </div>											
+            </div>
+        </div>					
+    </section>
+    <!-- End banner Area -->
+    <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn tabText"></li>
+        </ul>
+    </div>
+    <div id="adminDirectId" class="adminDirect">
+      <div class="adminButtonsHolder">
+          <div class="textAdmiHolder">
+              <h2>Would you like to add the new user to an existing Organisation? </h2>
+          </div>
+          <div class="textAdmiHolder">
+            <div class="yesno">
+              <button class="btn draw-border createAdmin noo">No</button>
+              <button class="btn draw-border yes ">Yes</button>
+            </div>
+          </div>
+      </div>
+  </div>
+    <div class="formBox" id="formBoxInidividual">
+      <form data-persist="garlic" method="POST" class="formIndividual">
+              <h1 class="title is-1 has-text-centered">{{partners.name}}</h1>
+      <h3 class=" has-text-centered">Creating A new employee Account to be admin of the Project</h3>
+  <div class="field">
+          <div class="field">
+                  <label class="label">Name</label>
+                  <div class="control">
+                      <input class="input" type="text" name="name" placeholder="Name of the individual"><p class="required">Required</p>
+                  </div>
+              </div>
+              <label class="label">Organisation selection</label>
+              <div class="control">
+                <div class="select">
+                  <select name="owner">
+                    <option selected value> Select an Organisation to add the new employee to </option>
+                    {{#each getAvailablePartners }}
+                      <option value="{{ this._id }}">{{ this.name }}</option>
+                    {{/each}}
+                  </select>
+                  <p class="required">Required</p>
+                </div>
+<!--         
+                <div class="projectNewPerson">
+                    <a class="addAdmin"><img class="plus imgAdd" src="../../assets/images/partners.png" alt="" title="" /></a>
+                </div> -->
+              </div>
+            </div>
+            <div class="field">
+              {{#each getSeletedPartners}}
+                <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
+                  {{ this.name }}
+                  <button class="delete is-small"></button>
+                </span>
+              {{/each}}
+            </div>
+              <div class="field">
+                  <label class="label">Position</label>
+                  <div class="control">
+                      <input class="input" type="text" name="position" placeholder="Position of the individual">
+                  </div>
+              </div>
+
+      <div class="field">
+          <label class="label">Description</label>
+          <div class="control">
+              <textarea class="input inputTextArea" name="bio" placeholder="Description of the individual"></textarea>
+          </div>
+      </div>
+      <div class="field">
+          <label class="label">Photo</label>
+          <div class="control">
+              <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the photo"> <p class="required">Required</p>
+          </div>
+      </div>
+      <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+              <input class="input" type="text" name="emails" placeholder="Email of the admin account"> <p class="required">Required</p>
+          </div>
+      </div>
+      <div class="field has-feedback">
+          <label class="label">Telephone</label>
+          <input id="at-field-telephone" class="input" type="tel" name="at_field_telephone" placeholder="Telephone">
+      </div>
+      <div class="field has-feedback">
+          <label class="label">Skype</label>
+          <input id="at-field-skype" class="input" type="text" name="at_field_skype" placeholder="Skype">
+      </div>
+      <div class="field has-feedback">
+          <label class="label">LinkedIn</label>
+          <input id="at-field-linkedIn" class="input" type="text" name="at_field_linkedIn" placeholder="LinkedIn">
+      </div>
+      <div class="field" style="display: none">
+          <label class="label">Projects</label>
+          <div class="control">
+              <div class="select">
+                  <select name="projects">
+                      <option selected value> Select a project to add the new employee to </option>
+                      {{#each getAvailableProjects }}
+                      <option value="{{ this._id }}">{{ this.name }}</option>
+                      {{/each}}
+                  </select>
+              </div>
+          </div>
+      </div>
+      <div class="tags">
+          {{#each getSeletedProjects }}
+          <span data-id="{{ this._id }}" class="tag is-info is-medium is-project">
+              {{ this.name }}
+              <button class="delete is-small"></button>
+          </span>
+          {{/each}}
+      </div>
+      <div class="field is-grouped">
+          <div class="control">
+              <button type="submit" value="Submit" class="button is-link">Submit</button>
+          </div>
+      </div>
+  </form>
+  <div class="control">
+          <button class="button is-text Cancel">Cancel</button>
+      </div>
+      </div>
+    <div class="formBox" id="formBoxProject">
+  <form data-persist="garlic" method="POST" class="form">
+    <h1 class="title is-1 has-text-centered">New Project</h1>
+    <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="input" type="text" name="name" placeholder="Name of the project"> <p class="required">Required</p>
+        </div>
+      </div>
+    <div class="field">
+      {{#each getSeletedIndividuals}}
+        <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
+          {{ this.name }}
+          <button class="delete is-small"></button>
+        </span>
+      {{/each}}
+    </div>
+    <div class="field">
+      <label class="label">Website</label>
+      <div class="control">
+        <input class="input" type="text" name="domain" placeholder="Website of the project">
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Description</label>
+      <div class="control">
+            <textarea class="input inputTextArea" name="bio" placeholder="Description of the project"></textarea>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Logo</label>
+      <div class="control">
+        <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo"> <p class="required">Required</p>
+      </div>
+    </div>
+    <div class="field is-grouped">
+      <div class="control">
+        <button type="submit" value="Submit" class="button is-link">Submit</button>
+      </div>
+    </div>
+  </form>
+  <div class="control">
+      <button  class="Cancel button is-text">Cancel</button>
+    </div>
+  </div>
+</template>

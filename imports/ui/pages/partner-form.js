@@ -19,10 +19,12 @@ Template.PartnerForm_page.onCreated(function onCreatedPartnerFormPage() {
 
     this.subscribe('projects');
     this.subscribe('individuals');
+
     this.availableProjects = new ReactiveVar([]);
     this.availableIndividuals = new ReactiveVar([]);
     this.selectedProjects = new ReactiveVar([]);
     this.selectedIndividuals = new ReactiveVar([]);
+
     this.autorun(() => {
 
         const projects = Projects.find({}, {
@@ -66,7 +68,6 @@ Template.PartnerForm_page.onCreated(function onCreatedPartnerFormPage() {
             const projects = Template.instance().selectedProjects.get().map(({ _id }) => _id);
             const individuals = Template.instance().selectedIndividuals.get().map(({ _id }) => _id);
             const logoFile = target.logo && target.logo.files && target.logo.files.length && target.logo.files[0];
-            const Id = FlowRouter.getParam('partnerId');
 
             Images.insert(logoFile, (error, imageDocument) => {
                 const logo = `cfs/files/images/${imageDocument._id}`;

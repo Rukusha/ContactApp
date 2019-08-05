@@ -11,6 +11,10 @@ const userFieldsPublication = {
     emails: 1,
     skype: 1
 };
+    Meteor.publish('allEmails',function(){
+        // you should restrict this publication to only be available to admin users
+        return Meteor.users.find({},{fields: { _id:1 ,emails: 1 }});
+      });
 
 Meteor.publish('users', function usersPublication() {
     const currentUser = Meteor.user();

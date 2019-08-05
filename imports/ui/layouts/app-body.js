@@ -9,16 +9,12 @@ Template.App_body.onCreated(function onCreatedPartnersListPage() {
     this.subscribe('Meteor.users.roles', this.getCurrentUserId());
   });
 });
-
-
 Template.App_body.helpers({
   isAdmin() {
     const user = Meteor.user();
-
     if (user && user.roles && user.roles && user.roles.includes && user.roles.includes('Admin')) {
       return true;
     }
-
     return false;
   }
 });

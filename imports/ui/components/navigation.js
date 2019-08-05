@@ -8,28 +8,30 @@ import { Roles } from 'meteor/alanning:roles';
 import './navigation.html';
 
 Template.Navigation_component.rendered = function () {
-    if (!this._rendered) {
-        this._rendered = true;
-        var loggedInUser = Meteor.userId();
-        if (!Meteor.userId()) {
-            var admin = document.getElementById("admin");
-            var user = document.getElementById("user");
+    var showHide = document.getElementById("user");
+    var adminControl = document.getElementById("adminControl");
 
-            admin.style.display = "none";
-            user.style.display = "none";
+    var loggedInUser = Meteor.userId();
 
-        }
-        if (Meteor.userId()) {
-            var admin = document.getElementById("admin");
-            var user = document.getElementById("user");
+    if (loggedInUser === "ngrCLuKYiRA6gshXM") {
+        showHide.style.display = "none";
+        adminControl.style.display = "block";
+    } else {
+        showHide.style.display = "block";
+        adminControl.style.display = "none";
+    }
 
-            admin.style.display = "none";
-            user.style.display = "block";
-            if (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group')) {
-            var showHide = document.getElementById("admin");
-            showHide.style.display = "block";
-        }
-        }
+    var showHideMobile = document.getElementById("userMobile");
+    var adminControlMobile = document.getElementById("adminControlMobile");
+
+    var loggedInUserMobile = Meteor.userId();
+
+    if (loggedInUserMobile === "ngrCLuKYiRA6gshXM") {
+        showHideMobile.style.display = "none";
+        adminControlMobile.style.display = "block";
+    } else {
+        showHidshowHideMobileeobile.style.display = "block";
+        adminControlMobile.style.display = "none";
     }
 };
 

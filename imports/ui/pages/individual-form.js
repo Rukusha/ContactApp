@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Images } from '../../api/images/images';
 import { Partners } from '../../api/partners/partners';
 import { Individuals } from '../../api/individuals/individuals';
+
 import { Projects } from '../../api/projects/projects';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -12,21 +13,31 @@ import { Users } from '../../api/users/users';
 import './individual-form.html';
 
 function Back() {
+    $('#NewIndividual').val(Id);
     window.history.back();
-}
-;
-
+};
+fieldValue = '#';
 //this function is used to dislay the no access notification to the current user f they dont have access
 function restrict() {
     var showHide = document.getElementById("overNoAccess");
     showHide.style.display = "block";
-}
-;
+};
+//persists data for forms on user navigation
+Template.IndividualForm_page.rendered = function () {
+    $("form[data-persist='garlic']").garlic();
+};
+
+Template.IndividualForm_page.onDestroyed(function onDestroyIndividualForm_page(){
+    if(somethingChanged === true){
+        alert("The information you have entered will be saved");
+        somethingChanged = false;
+    }
+});
 Template.IndividualForm_page.onCreated(function onCreatedIndividualFormPage() {
+    somethingChanged = false;
 
     this.subscribe('partners');
     this.subscribe('projects');
-
 
     this.availablePartners = new ReactiveVar([]);
     this.availableProjects = new ReactiveVar([]);
@@ -35,22 +46,22 @@ Template.IndividualForm_page.onCreated(function onCreatedIndividualFormPage() {
     this.selectedProjects = new ReactiveVar([]);
 
     this.autorun(() => {
-
         const projects = Projects.find({}, {
-            fields: {_id: 1, name: 1},
-            sort: {name: 1}
+            fields: { _id: 1, name: 1 },
+            sort: { name: 1 }
         }).fetch();
         this.availableProjects.set(projects);
         this.selectedProjects.set([]);
 
         const partners = Partners.find({}, {
-            fields: {_id: 1, name: 1},
-            sort: {name: 1}
+            fields: { _id: 1, name: 1 },
+            sort: { name: 1 }
         }).fetch();
         this.availablePartners.set(partners);
         this.selectedPartners.set([]);
     });
 });
+
 Template.IndividualForm_page.helpers({
     getAvailablePartners() {
         return Template.instance().availablePartners.get();
@@ -59,19 +70,25 @@ Template.IndividualForm_page.helpers({
         return Template.instance().selectedPartners.get();
     }
 });
+
 Template.IndividualForm_page.events({
+    'click .Cancel': function (event, template) {
+        Back();
+    },
     'submit .form': function (event, template) {
-        // Prevent default browser form submit
+        somethingChanged = false;
+        //Prevent default browser form submit
         event.preventDefault();
         const roleText = "default-user";
-        // Get value from form element
+        //Get value from form element
         const target = event.target;
         var name = target.name.value;
         const roles = roleText;
         const emails = target.emails.value;
-//          Insert a admin into the collection
-//              Here its adding the new user to the Users collection and retrieving the id
-        Id = Users.insert({"services": {
+        //Insert a admin into the collection
+        //Here its adding the new user to the Users collection and retrieving the id
+        Id = Users.insert({
+            "services": {
                 "password": {
                     "bcrypt": "$2b$10$AJaGl2l8EnMcRdt5n8EaWeukIw4XkzoxeRYOSbBUH9fij4ZgYjaFC"
                 },
@@ -98,9 +115,9 @@ Template.IndividualForm_page.events({
             }
         });
 
-        // Prevent default browser form submit
+        //Prevent default browser form submit
         event.preventDefault();
-        // Get value from form element
+        //Get value from form element
         const owner = target.owner.value;
         const linkedIn = target.at_field_linkedIn.value;
         const telephone = target.at_field_telephone.value;
@@ -109,66 +126,38 @@ Template.IndividualForm_page.events({
         const bio = target.bio.value;
 
         const projects = Template.instance().selectedProjects.get().map(({ _id }) => _id);
-        const partners = Template.instance().selectedPartners.get().map(({ _id }) => _id);
-
+        const partners = [Template.instance().selectedPartners.get().map(({ _id }) => _id)];
+        const projectsNot = [];
+        const partnersNot = [];
         const logoFile = target.logo && target.logo.files && target.logo.files.length && target.logo.files[0];
 
-//  Insert a person into the individual collection
-        Images.insert(logoFile, (error, imageDocument) => {
-            const logo = `cfs/files/images/${imageDocument._id}`;
-            var loggedInUser = Meteor.user();
+        //Insert a person into the individual collection
+        try {
+            Images.insert(logoFile, (error, imageDocument) => {
+                const logo = `cfs/files/images/${imageDocument._id}`;
+                Meteor.call('individuals.insert', { name, Id, owner, linkedIn, telephone, skype, position, bio, projectsNot, partnersNot, projects, partners, logo });
+            });
+            alert("You have created a new Individual sucessfully");
+            fieldValue = Id;
+            Back();
 
-//          this section holds the variables for the while loops to follow.
-//          gets the array length and sets them to the appropiate var
-
-//          counters
-            var i = 0;
-            const _id = Id;
-//          role check
-            if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group'))) {
-//              Here its adding the new individual to the individual collection and retrieving the id
-                var id = Meteor.call('individuals.insert'({_id, name, owner, linkedIn, bio, telephone, logo, skype, position}));
-
-                var UserWhoIssuedEvent = Meteor.user();
-                const busServiceIndividual = {
-                    UserWhoIssuedEvent, _id, name, owner, linkedIn, bio, telephone, logo, skype, position
-
-                };
-                //Server call to persist the data. 
-                Meteor.call("createBusServiceIndividual", busServiceIndividual, function (error, result) {
-                    if (error) {
-                        $(event.target).find(".error").html(error.reason);
-                    } else {
-                        Back();
-                    }
-                });
-                const docs = Partners.findOne({_id: owner});
-//                  Updating the Partners collection by adding the individuals Id into it
-                 Meteor.call('partners.update'({_id: docs._id}, {$addToSet: {individuals: id}}));
-
-//              while loop for the projects array
-//              Here its using the projects array to search for a id match in the Projects collection
-                const doc = Projects.findOne({_id: projects[i]});
-//                  Updating the projects collection by adding the individuals Id into it
-                 Meteor.call('projects.update'({_id: doc._id}, {$addToSet: {individuals: id}}));
-
-//              while loop for the partners array
-            } else {
-                restrict();
-            }
-        });
-        Back();
-//        FlowRouter.go('IndividualsList.show');
-
+        } catch (error) {
+            alert("Please fill out all the required fields");
+            FlowRouter.go('Individuals.add');
+        }
     },
-    'click .cancel'(event) {
-        // Prevent default browser form submit
-        event.preventDefault();
-
-        const current = FlowRouter.current();
-        const old = current.oldRoute;
-
-        FlowRouter.go(old ? old.name : 'admin.show');
+    'click .no'() {
+        document.getElementById('adminDirectId').style.display = "none";
+    },
+    'click .addPeople'() {
+        FlowRouter.go('AdminEmployee.add');
+    },
+    'click .addAdmin'() {
+        FlowRouter.go('Admin.add');
+    },
+    'click .cancel'() {
+        //Prevent default browser form submit
+        Back();
     },
     'change select[name="projects"]'(event) {
         const id = event.target.value;
@@ -256,7 +245,7 @@ Template.IndividualForm_page.events({
 Template.IndividualForm_page.helpers({
     partners() {
         const Company = localStorage.getItem('key');
-        return Partners.findOne({_id: Company});
+        return Partners.findOne({ _id: Company });
     },
     getAvailablePartners() {
         return Template.instance().availablePartners.get();

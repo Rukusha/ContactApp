@@ -1,154 +1,107 @@
 <template name="AdminForm_page">
     <!-- start banner Area -->
-    <section class="banner-area relative" id="home">	
+    <section class="banner-area relative" id="home">
         <div class="overlay overlay-bg"></div>
         <div class="container">
             <div class="row d-flex align-items-center justify-content-center">
                 <div class="about-content col-lg-12">
                     <h1 class="text-white">
-                        Organisation Admin Creation				
-                    </h1>	
-                    <p class="text-white link-nav">
-                        <a href="#">Creating new Organisation</a> 
-                    </p>
-                </div>											
+                        Organisation Creation
+                    </h1>
+                </div>
             </div>
         </div>
     </section>
     <!-- End banner Area -->
-    <!--                        New Company admin area start-->
-    <div id="cAdminForm">
-        <form class="form">
-            <h1 class="title is-1 has-text-centered">New Organisation Admin</h1>
-
-            <div class="field">
-                <label class="label">Name</label>
-                <div class="control">
-                    <input class="input" type="text" name="name" placeholder="Name of the individual">
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label">Position</label>
-                <div class="control">
-                    <input class="input" type="text" name="position" placeholder="Position of the individual">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Description</label>
-                <div class="control">
-                    <textarea class="input inputTextArea" name="bio" placeholder="Description of the individual"></textarea>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Photo</label>
-                <div class="control">
-                    <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the photo">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Email</label>
-                <div class="control">
-                    <input class="input" type="text" name="emails" placeholder="Email of the admin account">
-                </div>
-            </div>
-            <div class="field has-feedback">
-                <label class="label">Telephone</label>
-                <input id="at-field-telephone" class="input" type="tel" name="at_field_telephone" placeholder="Telephone">
-            </div>
-            <div class="field has-feedback">
-                <label class="label">Skype</label>
-                <input id="at-field-skype" class="input" type="text" name="at_field_skype" placeholder="Skype">
-            </div>
-            <div class="field has-feedback">
-                <label class="label">LinkedIn</label>
-                <input id="at-field-linkedIn" class="input" type="text" name="at_field_linkedIn" placeholder="LinkedIn">
-            </div>
-            <div class="field is-grouped">
-                <div class="control">
-                    <button type="submit" value="Submit" class="button is-link">Submit</button>
-                </div>
-                <div class="control">
-                    <button class="button is-text">Cancel</button>
-                </div>
-            </div>
-        </form>
+    <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn tabText"></li>
+        </ul>
     </div>
-    <!--New company admin area finish-->
-
+    <div id="adminDirectId" class="adminDirect">
+        <div class="adminButtonsHolder">
+            <div class="textAdmiHolder">
+                <h2>Would you like to create a new user to be admin?</h2>
+            </div>
+            <div class="textAdmiHolder">
+                <button class="btn draw-border no">No</button>
+                <button class="btn draw-border yes addPeople">Yes</button>
+            </div>
+        </div>
+    </div>
     <!--New Company area start-->
     <div id="CompanyForm">
-        <form class="formOrg">
-            <h1 class="title is-1 has-text-centered">New Organisation</h1>
-            <div class="field">
-                <label class="label">Name</label>
-                <div class="control">
-                    <input class="input" type="text" name="name" placeholder="Name of the Organisation">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Description</label>
-                <div class="control">
-                    <textarea class="input inputTextArea" name="bio" placeholder="Description of the Organisation"></textarea>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Logo</label>
-                <div class="control">
-                    <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Individuals</label>
-                <div class="control">
-                    <div class="select">
-                        <select name="individuals">
-                            <option selected value> Select an individual </option>
-                            {{#each getAvailableIndividuals }}
-                            <option value="{{ this._id }}">{{ this.name }}</option>
-                            {{/each}}
-                        </select>
+        <div class="formBox">
+            <form data-persist="garlic" method="POST" class="formOrg">
+                <h1 class="title is-1 has-text-centered">New Organisation</h1>
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input id="name" class="input" type="text" name="name" placeholder="Name of the Organisation">
+                        <p class="required">Required</p>
                     </div>
                 </div>
-            </div>
-            <div class="field">
-                {{#each getSeletedIndividuals}}
-                <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
-                    {{ this.name }}
-                    <button class="delete is-small"></button>
-                </span>
-                {{/each}}
-            </div>
-            <div class="field">
-                <label class="label">Projects</label>
-                <div class="control">
-                    <div class="select">
-                        <select name="projects">
-                            <option selected value> Select a project </option>
-                            {{#each getAvailableProjects }}
-                            <option value="{{ this._id }}">{{ this.name }}</option>
-                            {{/each}}
-                        </select>
+                <div class="field">
+                    <label class="label">Logo</label>
+                    <div class="control">
+                        <input id="logo" class="input" type="file" name="logo" data-max-size="1024" accept="image/*"
+                            placeholder="Filename of the logo">
+                        <p class="required">Required</p>
                     </div>
                 </div>
-            </div>
-            <div class="tags">
-                {{#each getSeletedProjects }}
-                <span data-id="{{ this._id }}" class="tag is-info is-medium is-project">
-                    {{ this.name }}
-                    <button class="delete is-small"></button>
-                </span>
-                {{/each}}
-            </div>
-            <div class="field is-grouped">
-                <div class="control">
-                    <button type="submit" value="Submit" class="button is-link">Submit</button>
+                <div class="field">
+                    <label class="label">Admin selection</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="admin">
+                                <option id="nameSelect" selected value> Select an Admin for the new Organisation </option>
+                                {{#each getAvailableIndividuals }}
+                                <option value="{{ this._id }}">{{ this.name }}</option>
+                                {{/each}}
+                            </select>
+                            <p class="required">Required</p>
+                            <br>
+                        </div>
+                    </div>
                 </div>
-                <div class="control">
-                    <button class="button is-text">Cancel</button>
+                <div class="field">
+                        <label class="label">Description</label>
+                        <div class="control">
+                            <textarea class="input inputTextArea" name="bio"
+                                placeholder="Description of the Organisation"></textarea>
+                        </div>
+                    </div>
+                <div class="field">
+                    <label class="label">LinkedIn</label>
+                    <div class="control">
+                        <input class="input" type="text" name="at_field_linkedIn"
+                            placeholder="LinkedIn of the Organisation">
+                    </div>
                 </div>
-            </div>
-        </form>
+                <div class="field">
+                    <label class="label">Facebook</label>
+                    <div class="control">
+                        <input class="input" type="text" name="at_field_facebook"
+                            placeholder="Facebook of the Organisation">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Twitter</label>
+                    <div class="control">
+                        <input class="input" type="text" name="at_field_twitter"
+                            placeholder="Twitter of the Organisation">
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button id="adminSubmit2" type="submit" value="Submit" class="button is-link">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-text Cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <!--new Company area finish-->
 </template>

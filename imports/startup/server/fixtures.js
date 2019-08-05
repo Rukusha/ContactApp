@@ -1,67 +1,234 @@
 import { Partners } from '../../api/partners/partners';
 import { Projects } from '../../api/projects/projects';
 import { Individuals } from '../../api/individuals/individuals';
-import { Meteor } from 'meteor/meteor';
-import { Roles } from 'meteor/alanning:roles';
+
+import { PartnersMinimal } from '../../api/PartnersMinimal/PartnersMinimal';
+import { ProjectsMinimal } from '../../api/ProjectsMinimal/ProjectsMinimal';
+import { IndividualsMinimal } from '../../api/IndividualsMinimal/IndividualsMinimal';
 import { Users } from '../../api/users/users';
-
-
-//var id = Meteor.users.findOne({});
-//Roles.addUsersToRoles(id._id, ['admin'], 'default-group');
 
 const initialUser = [
     {
-    "_id" : "ngrCLuKYiRA6gshXM",
-    "services" : {          
-        "password" : {
-            "bcrypt" : "$2b$10$AJaGl2l8EnMcRdt5n8Ea     WeukIw4XkzoxeRYOSbBUH9fij4ZgYjaFC"
+        "_id": "ngrCLuKYiRA6gshXM",
+        "services": {
+            "password": {
+                "bcrypt": "$2b$10$AJaGl2l8EnMcRdt5n8EaWeukIw4XkzoxeRYOSbBUH9fij4ZgYjaFC"
+            },
+            "resume": {
+                "loginTokens": [
+                ]
+            }
         },
-        "resume" : {
-            "loginTokens" : [ 
+        "emails": [
+            {
+                "address": "admin@gmail.com",
+                "verified": false
+            }
+        ],
+        "profile": {
+            "telephone": "01837462",
+            "name": "Admin",
+            "skype": "AdminSkype",
+            "linkedIn": "AdminLinkedIn"
+        },
+        "roles": {
+            "default-group": [
+                "admin"
             ]
         }
-    },
-    "emails" : [ 
-        {
-                                "address" : "admin@gmail.com",
-                                "verified" : false
-                            }
-                        ],
-    "profile" : {
-        "telephone" : "01837462",
-        "name" : "Admin",
-        "skype" : "AdminSkype",
-        "linkedIn" : "AdminLinkedIn"
-    },                                      
-    "roles" : {
-        "default-group" : [ 
-            "admin"
-        ]
     }
-}
 ];
 const initialProject = [
     {
+        "_id": "Pop9ZC8FNvNDRPbNs",
         "alias": "red-alert",
-        "owner": ["ngrCLuKYiRA6gshXM"],
+        "owner": ["SRy76ccSYLZQ4TjJZ"],
         "name": "RED ALERT",
+        "flagged" : false,
         "domain": "https://redalertproject.eu/",
         "bio": "Online Terrorist Content based on Natural Language Processing, Social Network Analysis, Artificial Intelligence and Complex Event Processing ",
         "logo": "assets/images/logos/red-alert.png",
         "individuals": [],
-        "partners": []
+        "partners": [
+            {
+                "_id" : "SRy76ccSYLZQ4TjJZ",
+                "name" : "INFORMATION CATALYST",
+                "alias" : "information-catalyst",
+                "logo": 'assets/images/logos/ice-infomation-catalyst-logo.jpg',
+                "owner" : [ 
+                    "SRy76ccSYLZQ4TjJZ"
+                ],
+                "flagged" : false,
+                "domain" : "http://informationcatalyst.com/",
+                "bio" : "ICE is a specialist consultancy assisting partners improve their business activities through cutting edge research and innovation, custom software development, and commercial consultancy services. ICE specialises in handling and processing of data, coming from heterogeneous sources in multiple formats and different domains. Our specialised solutions enable enterprises to remain competitive in a rapidly evolving domains."
+            }
+        ],
+            "individuals": [
+                {
+                    "_id" : "XNoe6aMeJSshimJ4h",
+                    "alias" : "michael-laubscher",
+                    "name" : "Michael Laubscher",
+                    "owner" : [ 
+                        "SRy76ccSYLZQ4TjJZ"
+                    ],
+                    "flagged" : false,
+                    "logo" : "assets/images/pictures/Michael-ice.jpeg",
+                    "bio" : "A placement student",
+                    "position" : "Junior Developer",
+                    "linkedIn" : "linkedinname",
+                    "skype" : "live:michael_43598",
+                    "telephone" : "677584934576"
+                }
+            ],
+            "partnersNot": [],
+            "individualsNot": [{
+                "_id" : "YcSipKshuq4tLFSaF",
+                "name" : "Stuart Campbell",
+                "alias" : "stuart-campbell",
+                "owner" : [ 
+                    "SRy76ccSYLZQ4TjJZ"
+                ],
+                "logo" : "assets/images/pictures/stuart.jpg",
+                "flagged" : false,
+                "bio" : "",
+                "position" : "Director and CEO",
+                "linkedIn" : "",
+                "skype" : "",
+                "telephone" : ""
+            }]
+        }
+];
+const initialProjectMinimal = [
+    {
+        "_id": "Pop9ZC8FNvNDRPbNs",
+        "alias": "red-alert",
+        "flagged" : false,
+        "owner": ["SRy76ccSYLZQ4TjJZ"],
+        "name": "RED ALERT",
+        "domain": "https://redalertproject.eu/",
+        "bio": "Online Terrorist Content based on Natural Language Processing, Social Network Analysis, Artificial Intelligence and Complex Event Processing ",
+        "logo": "assets/images/logos/red-alert.png",
     }
+
 ];
 const initialIndividuals = [
     {
-        "name": "Michael Laubscher",
-        "owner": ["ngrCLuKYiRA6gshXM"],
-        "logo": "assets/images/pictures/Michael-ice.jpeg",
-        "bio": "A placement student",
-        "position": "Junior Developer",
-        "linkedIn": "linkedinname",
-        "skype": "live:michael_43598",
-        "telephone": "677584934576"
+        "_id" : "XNoe6aMeJSshimJ4h",
+        "alias" : "michael-laubscher",
+        "name" : "Michael Laubscher",
+        "owner" : [ 
+            "SRy76ccSYLZQ4TjJZ"
+        ],
+        "flagged" : false,
+        "logo" : "assets/images/pictures/Michael-ice.jpeg",
+        "bio" : "A placement student",
+        "position" : "Junior Developer",
+        "linkedIn" : "linkedinname",
+        "skype" : "live:michael_43598",
+        "telephone" : "677584934576",
+        "projectsNot" : [ 
+        ],
+        "partnersNot" : [ 
+        ],
+        "projects" : [            {
+            "_id" : "Pop9ZC8FNvNDRPbNs",
+            "alias" : "red-alert",
+            "owner" : [ 
+                "SRy76ccSYLZQ4TjJZ"
+            ],
+            "name" : "RED ALERT",
+            "flagged" : false,
+            "domain" : "https://redalertproject.eu/",
+            "bio" : "Online Terrorist Content based on Natural Language Processing, Social Network Analysis, Artificial Intelligence and Complex Event Processing ",
+            "logo" : "assets/images/logos/red-alert.png"
+        }],
+        "partners" : [ 
+            {
+                "_id" : "SRy76ccSYLZQ4TjJZ",
+                "name" : "INFORMATION CATALYST",
+                "alias" : "information-catalyst",
+                "logo": 'assets/images/logos/ice-infomation-catalyst-logo.jpg',
+                "owner" : [ 
+                    "SRy76ccSYLZQ4TjJZ"
+                ],
+                "flagged" : false,
+                "domain" : "http://informationcatalyst.com/",
+                "bio" : "ICE is a specialist consultancy assisting partners improve their business activities through cutting edge research and innovation, custom software development, and commercial consultancy services. ICE specialises in handling and processing of data, coming from heterogeneous sources in multiple formats and different domains. Our specialised solutions enable enterprises to remain competitive in a rapidly evolving domains."
+            }
+        ]
+    },
+    {
+        "_id": "YcSipKshuq4tLFSaF",
+        "name": "Stuart Campbell",
+        "alias" : "stuart-campbell",
+        "owner": ["SRy76ccSYLZQ4TjJZ"],
+        "logo": "assets/images/pictures/stuart.jpg",
+        "flagged" : false,
+        "bio": "",
+        "position": "Director and CEO",
+        "linkedIn": "",
+        "skype": "",
+        "telephone": "",
+        "projectsNot": [],
+        "partnersNot": [],
+        "projects": [{
+            "_id": "Pop9ZC8FNvNDRPbNs",
+            "alias": "red-alert",
+            "owner": ["SRy76ccSYLZQ4TjJZ"],
+            "name": "RED ALERT",
+            "flagged" : false,
+
+            "domain": "https://redalertproject.eu/",
+            "bio": "Online Terrorist Content based on Natural Language Processing, Social Network Analysis, Artificial Intelligence and Complex Event Processing ",
+            "logo": "assets/images/logos/red-alert.png"
+        }],
+        "partners": [
+            {
+                "_id" : "SRy76ccSYLZQ4TjJZ",
+                "name" : "INFORMATION CATALYST",
+                "alias" : "information-catalyst",
+                "logo": 'assets/images/logos/ice-infomation-catalyst-logo.jpg',
+                "owner" : [ 
+                    "SRy76ccSYLZQ4TjJZ"
+                ],
+                "flagged" : false,
+                "domain" : "http://informationcatalyst.com/",
+                "bio" : "ICE is a specialist consultancy assisting partners improve their business activities through cutting edge research and innovation, custom software development, and commercial consultancy services. ICE specialises in handling and processing of data, coming from heterogeneous sources in multiple formats and different domains. Our specialised solutions enable enterprises to remain competitive in a rapidly evolving domains.",
+                "twitter" : "",
+                "linkedin" : ""
+            }
+    ]
+    }
+];
+const initialIndividualsMinimal = [
+    {
+        "_id" : "XNoe6aMeJSshimJ4h",
+        "alias" : "michael-laubscher",
+        "name" : "Michael Laubscher",
+        "owner" : [ 
+            "SRy76ccSYLZQ4TjJZ"
+        ],
+        "flagged" : false,
+        "logo" : "assets/images/pictures/Michael-ice.jpeg",
+        "bio" : "A placement student",
+        "position" : "Junior Developer",
+        "linkedIn" : "linkedinname",
+        "skype" : "live:michael_43598",
+        "telephone" : "677584934576",
+        
+    },
+    {
+        "_id": "YcSipKshuq4tLFSaF",
+        "name": "Stuart Campbell",
+        "alias" : "stuart-campbell",
+        "owner": ["SRy76ccSYLZQ4TjJZ"],
+        "logo": "assets/images/pictures/stuart.jpg",
+        "flagged" : false,
+        "bio": "",
+        "position": "Director and CEO",
+        "linkedIn": "",
+        "skype": "",
+        "telephone": "",
     }
 ];
 const initialPartners = [
@@ -125,54 +292,135 @@ const initialPartners = [
     //   alias: 'serviciul-de-protectie-si-paza',
     //   logo: 'serviciul-de-protectie-si-paza.png'
     // },
-    // {
-    //   name: 'MINISTRY OF PUBLIC SECURITY',
-    //   alias: 'ministry-of-public-security',
-    //   logo: 'ministry-of-public-security.png'
-    // },
-    // {
-    //   name: 'MINISTERIO DEL INTERIOR',
-    //   alias: 'ministerio-del-interior',
-    //   logo: 'ministerio-del-interior.png'
-    // },
-    // {
-    //   name: 'SERVICIUL DE PROTECTIE SI PAZA DE STAT',
-    //   alias: 'serviciul-de-protectie-si-paza-de-stat',
-    //   logo: 'serviciul-de-protectie-si-paza-de-stat.png'
-    // },
+    //  {
+    //    name: 'MINISTRY OF PUBLIC SECURITY',
+    //    alias: 'ministry-of-public-security',
+    //    logo: 'ministry-of-public-security.png',
+    //            owner: ["temp"]
+
+    //  },
+    //  {
+    //    name: 'MINISTERIO DEL INTERIOR',
+    //    alias: 'ministerio-del-interior',
+    //    logo: 'ministerio-del-interior.png',
+    //            owner: ["temp"]
+
+    //  },
+    //  {
+    //    name: 'SERVICIUL DE PROTECTIE SI PAZA DE STAT',
+    //    alias: 'serviciul-de-protectie-si-paza-de-stat',
+    //    logo: 'serviciul-de-protectie-si-paza-de-stat.png',
+    //            owner: ["temp"]
+
+    //  },
     {
-        name: 'INFORMATION CATALYST',
-        alias: 'information-catalyst',
-        logo:'assets/images/logos/ice-infomation-catalyst-logo.jpg',
-        "owner": ["ngrCLuKYiRA6gshXM"],
-        domain: "http://informationcatalyst.com/",
-        bio: "ICE is a specialist consultancy assisting partners improve their business activities through cutting edge research and innovation, custom software development, and commercial consultancy services. ICE specialises in handling and processing of data, coming from heterogeneous sources in multiple formats and different domains. Our specialised solutions enable enterprises to remain competitive in a rapidly evolving domains.",
-        individuals: [],
-        partners: []
+        "_id": "SRy76ccSYLZQ4TjJZ",
+        "name": 'INFORMATION CATALYST',
+        "alias": 'information-catalyst',
+        "logo": 'assets/images/logos/ice-infomation-catalyst-logo.jpg',
+        "owner": ["SRy76ccSYLZQ4TjJZ"],
+        "flagged" : false,
+
+        "domain": "http://informationcatalyst.com/",
+        "bio": "ICE is a specialist consultancy assisting partners improve their business activities through cutting edge research and innovation, custom software development, and commercial consultancy services. ICE specialises in handling and processing of data, coming from heterogeneous sources in multiple formats and different domains. Our specialised solutions enable enterprises to remain competitive in a rapidly evolving domains.",
+        "individuals": [{
+            "_id" : "YcSipKshuq4tLFSaF",
+            "name" : "Stuart Campbell",
+            "alias" : "stuart-campbell",
+            "owner" : [ 
+                "SRy76ccSYLZQ4TjJZ"
+            ],
+            "logo" : "assets/images/pictures/stuart.jpg",
+            "flagged" : false,
+            "bio" : "",
+            "position" : "Director and CEO",
+            "linkedIn" : "",
+            "skype" : "",
+            "telephone" : ""
+        }, {
+            "_id" : "XNoe6aMeJSshimJ4h",
+            "alias" : "michael-laubscher",
+            "name" : "Michael Laubscher",
+            "owner" : [ 
+                "SRy76ccSYLZQ4TjJZ"
+            ],
+            "flagged" : false,
+            "logo" : "assets/images/pictures/Michael-ice.jpeg",
+            "bio" : "A placement student",
+            "position" : "Junior Developer",
+            "linkedIn" : "linkedinname",
+            "skype" : "live:michael_43598",
+            "telephone" : "677584934576"
+        },],
+        "projects": [{
+            "_id": "Pop9ZC8FNvNDRPbNs",
+            "alias": "red-alert",
+            "owner": ["SRy76ccSYLZQ4TjJZ"],
+            "name": "RED ALERT",
+            "flagged" : false,
+
+            "domain": "https://redalertproject.eu/",
+            "bio": "Online Terrorist Content based on Natural Language Processing, Social Network Analysis, Artificial Intelligence and Complex Event Processing ",
+            "logo": "assets/images/logos/red-alert.png"
+        }],
+        "individualsNot": [],
+        "projectsNot": []
+    }
+];
+const initialPartnersMinimal = [
+    {
+        "_id" : "SRy76ccSYLZQ4TjJZ",
+        "name" : "INFORMATION CATALYST",
+        "alias" : "information-catalyst",
+        "logo": 'assets/images/logos/ice-infomation-catalyst-logo.jpg',
+        "owner" : [ 
+            "SRy76ccSYLZQ4TjJZ"
+        ],
+        "flagged" : false,
+        "domain" : "http://informationcatalyst.com/",
+        "bio" : "ICE is a specialist consultancy assisting partners improve their business activities through cutting edge research and innovation, custom software development, and commercial consultancy services. ICE specialises in handling and processing of data, coming from heterogeneous sources in multiple formats and different domains. Our specialised solutions enable enterprises to remain competitive in a rapidly evolving domains."
     }
 ];
 initialUser.forEach(function addUserToCollection(User) {
-    const existentUsers = Users.findOne({alias: User.alias});
+    const existentUsers = Users.findOne({ alias: User.alias });
     if (!existentUsers) {
         Users.insert(User);
     }
 });
 initialProject.forEach(function addProjectsToCollection(projects) {
-    const existentProjects = Projects.findOne({alias: projects.alias});
+    const existentProjects = Projects.findOne({ alias: projects.alias });
     if (!existentProjects) {
         Projects.insert(projects);
     }
 });
+initialProjectMinimal.forEach(function addProjectsToCollection(projects) {
+    const existentProjects = ProjectsMinimal.findOne({ alias: projects.alias });
+    if (!existentProjects) {
+        ProjectsMinimal.insert(projects);
+    }
+});
 initialIndividuals.forEach(function addIndividualsToCollection(individual) {
-    const existentIndividuals = Individuals.findOne({alias: individual.alias});
+    const existentIndividuals = Individuals.findOne({ alias: individual.alias });
     if (!existentIndividuals) {
         Individuals.insert(individual);
     }
 });
+initialIndividualsMinimal.forEach(function addIndividualsToCollection(individual) {
+    const existentIndividuals = IndividualsMinimal.findOne({ alias: individual.alias });
+    if (!existentIndividuals) {
+        IndividualsMinimal.insert(individual);
+    }
+});
 initialPartners.forEach(function addPartnerToCollection(partner) {
-    const existentPartner = Partners.findOne({alias: partner.alias});
+    const existentPartner = Partners.findOne({ alias: partner.alias });
     if (!existentPartner) {
         Partners.insert(partner);
+    }
+});
+initialPartnersMinimal.forEach(function addPartnerToCollection(partner) {
+    const existentPartner = PartnersMinimal.findOne({ alias: partner.alias });
+    if (!existentPartner) {
+        PartnersMinimal.insert(partner);
     }
 });
 

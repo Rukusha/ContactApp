@@ -15,7 +15,30 @@ FlowRouter.route('/', {
         FlowRouter.go('ProjectList.show');
     }
 });
+FlowRouter.route('/Home', {
+    name: 'Home.show',
+    action: function goToHomePage() {
+        BlazeLayout.render('App_body', {main: 'Home_page'});
+    }
+});
+FlowRouter.route('/adminControl', {
+    name: 'adminControl.show',
+    action: function goToAdminPage() {
+        var loggedInUser = Meteor.userId();
 
+        if (loggedInUser === "ngrCLuKYiRA6gshXM") {
+            BlazeLayout.render('App_body', {main: 'adminControl_page'});
+        }else{
+            var showHide = document.getElementById("overNoAccess");
+            if (showHide.style.display === "block") {
+                showHide.style.display = "none";
+            } else {
+                showHide.style.display = "block";
+            }
+            throw new Meteor.Error('not-authorized');
+        }
+    }
+});
 FlowRouter.route('/admin', {
     name: 'Admin.show',
     action: function goToAdminPage() {
@@ -37,6 +60,40 @@ FlowRouter.route('/admin/add', {
         var loggedInUser = Meteor.user();
           if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
             BlazeLayout.render('App_body', {main: 'AdminForm_page'});
+        } else {
+            var showHide = document.getElementById("overNoAccess");
+            if (showHide.style.display === "block") {
+                showHide.style.display = "none";
+            } else {
+                showHide.style.display = "block";
+            }
+            throw new Meteor.Error('not-authorized');
+        }
+    }
+});
+FlowRouter.route('/project/add/organisation', {
+    name: 'ProjectAdmin.add',
+    action: function renderAdminFormCreatePage() {
+        var loggedInUser = Meteor.user();
+          if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
+            BlazeLayout.render('App_body', {main: 'ProjectInividualFormCreate_page'});
+        } else {
+            var showHide = document.getElementById("overNoAccess");
+            if (showHide.style.display === "block") {
+                showHide.style.display = "none";
+            } else {
+                showHide.style.display = "block";
+            }
+            throw new Meteor.Error('not-authorized');
+        }
+    }
+});
+FlowRouter.route('/admin/add/employee', {
+    name: 'AdminEmployee.add',
+    action: function renderAdminFormCreatePage() {
+        var loggedInUser = Meteor.user();
+          if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
+            BlazeLayout.render('App_body', {main: 'AdminFormCreate_page'});
         } else {
             var showHide = document.getElementById("overNoAccess");
             if (showHide.style.display === "block") {
@@ -104,6 +161,23 @@ FlowRouter.route('/projects/add', {
         }
     }
 });
+FlowRouter.route('/projects/add/individual', {
+    name: 'ProjectIndividual.add',
+    action: function renderProjectFormPage() {
+        var loggedInUser = Meteor.user();
+                if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
+            BlazeLayout.render('App_body', {main: 'ProjectFormCreate_page'});
+        } else {
+            var showHide = document.getElementById("overNoAccess");
+            if (showHide.style.display === "block") {
+                showHide.style.display = "none";
+            } else {
+                showHide.style.display = "block";
+            }
+            throw new Meteor.Error('not-authorized');
+        }
+    }
+});
 FlowRouter.route('/projects/edit/:projectId', {
     name: 'ProjectsDetailsEdit.edit',
     action: function renderProjectEditPage() {
@@ -122,23 +196,7 @@ FlowRouter.route('/partners/details/:partnerId', {
         BlazeLayout.render('App_body', {main: 'PartnerDetails_page'});
     }
 });
-FlowRouter.route('/partner/adds', {
-    name: 'Partner.add',
-    action: function renderProjectFormPage() {
-        var loggedInUser = Meteor.user();
-                if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
-            BlazeLayout.render('App_body', {main: 'PartnerForm_page'});
-        } else {
-            var showHide = document.getElementById("overNoAccess");
-            if (showHide.style.display === "block") {
-                showHide.style.display = "none";
-            } else {
-                showHide.style.display = "block";
-            }
-            throw new Meteor.Error('not-authorized');
-        }
-    }
-});
+
 FlowRouter.route('/partner/edit/:partnerId', {
     name: 'PartnerEditDetails.edit',
     action: function renderPartnerDetailsPage(params) {
@@ -157,6 +215,33 @@ FlowRouter.route('/individuals/details/:individualsId', {
         BlazeLayout.render('App_body', {main: 'IndividualsDetails_page'});
     }
 });
+FlowRouter.route('/partners/individuals/add/:partnerId', {
+    name: 'partners-Individuals.add',
+    action: function renderPartnerDetailsPage(params) {
+        BlazeLayout.render('App_body', {main: 'IndividualFormPartners_page'});
+    }
+});
+FlowRouter.route('/partners/individuals/add', {
+    name: 'partners-Individualss.add',
+    action: function renderProjectFormPartnerPage() {
+                var loggedInUser = Meteor.user();
+                if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
+            BlazeLayout.render('App_body', {main: 'IndividualFormPartners_page'});
+            }
+            var showHide = document.getElementById("overNoAccess");
+            if (showHide.style.display === "block") {
+                showHide.style.display = "none";
+            } else {
+                showHide.style.display = "block";
+            }
+        }
+    });
+    FlowRouter.route('/individuals/add/form', {
+        name: 'Individuals-forms.add',
+        action: function renderProjectFormPage() {
+                BlazeLayout.render('App_body', {main: 'Individual_page'});
+                }
+        });
 FlowRouter.route('/individuals/add', {
     name: 'Individuals.add',
     action: function renderProjectFormPage() {
@@ -170,7 +255,6 @@ FlowRouter.route('/individuals/add', {
             } else {
                 showHide.style.display = "block";
             }
-            throw new Meteor.Error('not-authorized');
         }
     });
 FlowRouter.route('/individuals/', {

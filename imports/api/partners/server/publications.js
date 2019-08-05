@@ -1,13 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import { Projects } from '../../projects/projects';
 import { Partners } from '../partners';
 import { Images } from '../../images/images';
 
 
 Meteor.publish('partners', function partnersPublication() {
-    return Partners.find({});
+    
+    return Partners.find({flagged: false}); 
 });
-
 Partners.allow({
     insert() {
         return true;

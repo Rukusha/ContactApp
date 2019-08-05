@@ -1,11 +1,11 @@
 <template name="ProjectForm_page">
               <!-- start banner Area -->
-              
     <section class="banner-area relative" id="home">
         <div class="overlay overlay-bg"></div>	
         <div class="container">
             <div class="row fullscreen d-flex align-items-center justify-content-center">
-                <div class="banner-content col-lg-8">							<h1 class="text-white">
+                <div class="banner-content col-lg-8">							
+                  <h1 class="text-white">
                         {{ partner.name }}				
                     </h1>
                     <p class="pt-20 pb-20 text-white">
@@ -16,22 +16,51 @@
         </div>					
     </section>
     <!-- End banner Area -->
-  <form class="form">
+    <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn tabText"></li>
+        </ul>
+    </div>
+    <div id="adminDirectId" class="adminDirect">
+        <div class="adminButtonsHolder">
+            <div class="textAdmiHolder">
+                <h2>Would you like to create a new user to be the admin for the Project?</h2>
+            </div>
+            <div class="textAdmiHolder">
+                <button class="btn draw-border no">No</button>
+                <button class="btn draw-border yes createP">Yes</button>
+            </div>
+        </div>
+    </div>
+    <div class="formBox">
+  <form data-persist="garlic" method="POST" class="form needs-validation" novalidate>
     <h1 class="title is-1 has-text-centered">New Project</h1>
+    <div class="field">
+        <label for="validationCustom01" class="label">Name</label>
+        <div class="control">
+          <input id="ProjectName validationCustom01" value="{{ProjectName}}" class="input form-control" type="text" name="name" placeholder="Name of the project" required>
+          <div class="valid-feedback">
+              Looks good!
+            </div>
+          <p class="required">Required</p>
+        </div>
+      </div>
     <div class="field">
       <label class="label">Admin selection</label>
       <div class="control">
         <div class="select">
-          <select name="admin">
+          <select id="#NewIndividual" name="admin">
             <option selected value> Select an Admin for the project </option>
             {{#each getAvailableIndividuals }}
               <option value="{{ this._id }}">{{ this.name }}</option>
             {{/each}}
           </select>
+          <p class="required">Required</p>
+        <br>
         </div>
-          <div class="projectNewPerson">
+          <!-- <div class="projectNewPerson">
             <button class="addPeople createP"><img class="imgAdd" src="../../assets/images/si-glyph-person-plus.png" alt="icon for adding a person"/></button>
-          </div>
+          </div> -->
       </div>
     </div>
     <div class="field">
@@ -42,14 +71,6 @@
         </span>
       {{/each}}
     </div>
-
-    <div class="field">
-      <label class="label">Name</label>
-      <div class="control">
-        <input class="input" type="text" name="name" placeholder="Name of the project">
-      </div>
-    </div>
-
     <div class="field">
       <label class="label">Website</label>
       <div class="control">
@@ -65,17 +86,17 @@
     <div class="field">
       <label class="label">Logo</label>
       <div class="control">
-        <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
+        <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo"> <p class="required">Required</p>
       </div>
     </div>
-
     <div class="field is-grouped">
       <div class="control">
         <button type="submit" value="Submit" class="button is-link">Submit</button>
       </div>
-      <div class="control">
-        <button value="cancle" class="cancel button is-text">Cancel</button>
-      </div>
     </div>
   </form>
+  <div class="control">
+      <button  class="Cancel button is-text">Cancel</button>
+    </div>
+  </div>
 </template>

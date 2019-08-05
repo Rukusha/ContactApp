@@ -1,93 +1,93 @@
 <template name="PartnerEditForm_page">
-    <form class="form">
-        <h1 class="title is-1 has-text-centered">Edit {{ partners.name }}</h1>
-
-        <div class="field">
-            <label class="label">Name</label>
-            <div class="control">
-                <input class="input" type="text" name="name" placeholder="{{ partners.name }}">
-            </div>
-        </div>
-        <div class="field">
-            <label class="label">Logo</label>
-            <div class="control">
-                <input class="input" type="file" name="logo" accept="image/*" placeholder="Filename of the logo">
-            </div>
-        </div>
-        <div class="field">
-            <label class="label">Description</label>
-            <div class="control">
-                <textarea class="input inputTextArea" type="text" name="bio" placeholder="{{ partners.bio }}"></textarea>
-            </div>
-        </div>
-                <div class="field">
-            <label class="label">LinkedIn</label>
-            <div class="control">
-                <input class="input" type="text" name="linkedin" placeholder="{{ partners.LinkedIn }}">
-            </div>
-        </div>
-                <div class="field">
-            <label class="label">Facebook</label>
-            <div class="control">
-                <input class="input" type="text" name="facebook" placeholder="{{ partners.Facebook }}">
-            </div>
-        </div>
-                <div class="field">
-            <label class="label">Twitter</label>
-            <div class="control">
-                <input class="input" type="text" name="twitter" placeholder="{{ partners.Twitter }}">
-            </div>
-        </div>
-        <div class="field">
-            <label class="label">Projects</label>
-            <div class="control">
-                <div class="select">
-                    <select name="projects">
-                        <option selected value> Select a project </option>
-                        {{#each getAvailableProjects }}
-                        <option value="{{ this._id }}">{{ this.name }}</option>
-                        {{/each}}
-                    </select>
+    <div class="formBox">
+        <form class="form">
+            <h1 class="title is-1 has-text-centered">Edit {{ partners.name }}</h1>
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                    <input id="ProjectName" class="input" type="text" name="name" value="{{ partners.name }}">
+                    <input id="ProjectNameInvisible" class="input" type="text" name="nameOld"
+                        value="{{ partners.name }}">
                 </div>
             </div>
-        </div>
-        <div class="tags">
-            {{#each getSeletedProjects }}
-            <span data-id="{{ this._id }}" class="tag is-info is-medium is-project">
-                {{ this.name }}
-                <button class="delete is-small"></button>
-            </span>
-            {{/each}}
-        </div>
-        <div class="field">
-            <label class="label">Individuals</label>
-            <div class="control">
-                <div class="select">
-                    <select name="individuals">
-                        <option selected value> Select an individual </option>
-                        {{#each getAvailableIndividuals }}
-                        <option value="{{ this._id }}">{{ this.name }}</option>
-                        {{/each}}
-                    </select>
+            <div class="field">
+                <label class="label">Logo</label>
+                <div class="control">
+                    <img src="../../{{ partners.logo }}">
+                    <input id="logo" class="input" type="file" name="logo" accept="image/*"
+                        placeholder="{{ partners.logo }}">
+                    <input id="logoInvisible" class="input" type="file" name="logoOld" accept="image/*"
+                        placeholder="{{ partners.logo }}">
                 </div>
             </div>
-        </div>
-        <div class="field">
-            {{#each getSeletedIndividuals}}
-            <span data-id="{{ this._id }}" class="tag is-info is-medium is-individual">
-                {{ this.name }}
-                <button class="delete is-small"></button>
-            </span>
-            {{/each}}
-        </div>
-
-        <div class="field is-grouped">
-            <div class="control">
-                <button type="submit" value="Submit" class="button is-link">Submit</button>
+            <div class="field">
+                <label class="label">Description</label>
+                <div class="control">
+                    <textarea id="bio" class="input inputTextArea" type="text" name="bio"
+                        value="{{ partners.bio }}"></textarea>
+                    <textarea id="bioInvisible" class="input inputTextArea" type="text" name="bioOld"
+                        value="{{ partners.bio }}"></textarea>
+                </div>
             </div>
-            <div class="control">
-                <button class="button is-text">Cancel</button>
+            <div class="field">
+                <label class="label">LinkedIn</label>
+                <div class="control">
+                    <input id="linkedin" class="input" type="text" name="linkedin" value="{{ partners.linkedin }}">
+                    <input id="linkedInInvisible" class="input" type="text" name="linkedinOld"
+                        value="{{ partners.linkedin }}">
+                </div>
             </div>
-        </div>
-    </form>
+            <div class="field">
+                <label class="label">Facebook</label>
+                <div class="control">
+                    <input id="facebook" class="input" type="text" name="facebook" value="{{ partners.facebook }}">
+                    <input id="facebookInvisible" class="input" type="text" name="facebookOld"
+                        value="{{ partners.facebook }}">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Twitter</label>
+                <div class="control">
+                    <input id="twitter" class="input" type="text" name="twitter" value="{{ partners.twitter }}">
+                    <input id="TwitterInvisible" class="input" type="text" name="Twitter"
+                        value="{{ partners.twitter }}">
+                </div>
+            </div>
+            <div class="removeConnections">
+                <div class="list-group">
+                    <a class="list-group-item active" style="color: white;">
+                        Remove Project from {{ partners.name }}
+                    </a>
+                    {{#each projectsAdd}}
+                    <div class="projectDelete">
+                        <a class="list-group col-sm-8" name="projectlist" value="{{_id}}">{{ name }}</a>
+                        <a id="deleteBtn" class="col-sm-4">Remove</a>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="removeConnections">
+                <div class="list-group">
+                    <a class="list-group-item active" style="color: white;">
+                        Remove Employee from {{ partners.name }}
+                    </a>
+                    {{#each individualsAdd}}
+                    <div class="individualDelete">
+                        <a class="list-group col-sm-8" name="projectlist" value="{{_id}}">{{ name }}</a>
+                        <a id="deleteBtn" class="col-sm-4">Remove</a>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button id="logoSubmit" type="submit" value="Submit" class="button is-link">Submit</button>
+                    <button id="logoSubmitNone" class="logoSubmit button is-link">Submit</button>
+                </div>
+                <div class="control">
+                    <button class="button is-text Cancel">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </template>

@@ -21,24 +21,25 @@ function restrict() {
 ;
 Template.ProjectList_page.onCreated(function onCreatedProjectListPage() {
     Meteor.subscribe('projects');
+
 });
 
 Template.ProjectList_page.helpers({
     projects() {
-        return Projects.find({}, {sort: {name: 1}});
+        return Projects.find({}, { sort: { name: 1 } });
     }
 });
 Template.ProjectList_page.events({
     'click .addP'() {
-//            checks to make sure a user is logged in on a cadmin account
+        //checks to make sure a user is logged in on a cadmin account
         var loggedInUser = Meteor.userId();
-            if (!Meteor.userId()) {
-                restrict();
+        if (!Meteor.userId()) {
+            restrict();
         }
-        else if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
-                FlowRouter.go('Project.add');
-            }
-        },
+        else if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group'))) {
+            FlowRouter.go('Project.add');
+        }
+    },
 
     'click .noAccessBtn-right'() {
         var showHide = document.getElementById("overNoAccess");

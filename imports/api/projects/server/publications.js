@@ -1,11 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Projects } from '../projects';
 import { Images } from '../../images/images';
+import { Individuals } from '../../individuals/individuals';
+
 
 Meteor.publish('projects', function projectsPublication() {
-
     return Projects.find({});
-  });
+});
   Projects.allow({
     insert() {
         return true;

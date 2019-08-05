@@ -1,5 +1,5 @@
 <template name="IndividualsDetails_page">
-    <!-- start banner Area -->
+    <!-- start banner Area -->    
     <section class="banner-area relative" id="home">
         <div class="overlay overlay-bg"></div>	
         <div class="container">
@@ -22,7 +22,6 @@
             <p>You do not have access. Please sign in with an account that has access</p>
             <!--        <button class="noAccessBtn">Sign in</button>-->
             <button class="noAccessBtn-right">Back</button>
-
         </div>
     </div>
     <!--    end of no access notification-->
@@ -39,7 +38,11 @@
         <div class="detailedFrame">            
             <div class="profileCard">
                 <div class="deleteBtn">
-                    <img class="projectDetailsImg is-400x400" src="../../{{ individuals.logo }}">
+                        {{#if imgLoaded}}
+                            <img class="projectDetailsImg is-400x400" src="../../{{ individuals.logo }}">
+                        {{else}}
+                            <img class="is-rounded" src="assets/images/placeholders/imgholdr-image.png">
+                        {{/if}}
                 </div>
                 <div class="right-card">
                     <div class="individualsBio">
@@ -50,22 +53,32 @@
                             <nav>
                                 <div class="contactLinks">
                                     <div class="C-Links">
-                                        <a href="skype:{{ skype }}?call">
+                                        <a id="skypeIcon" href="skype:{{ skype }}?call">
                                             <span class="icon is-medium">
                                                 <i class="fab fa-skype"></i>
                                             </span>
                                         </a>
-                                        <a href="mailto:{{ mail }}">
+                                        <a id="emailsIcon" href="mailto:{{ mail }}">
                                             <span class="icon is-medium">
                                                 <i class="fas fa-at"></i>
                                             </span>
                                         </a>
-                                        <a href="tel:{{ telephone }}">
+                                        <a id="phoneIcon" href="tel:{{ telephone }}">
                                             <span class="icon is-medium">
                                                 <i class="fas fa-phone"></i>
                                             </span>
                                         </a>
-                                        <a href="https://www.linkedin.com/in/{{ linkedIn }}/">
+                                        <a id="twitterIcon" href="https:{{ individuals.twitter }}">
+                                            <span class="icon is-medium">
+                                                <i class="fas fa fa-twitter"></i>
+                                            </span>
+                                        </a>
+                                        <a id="facebookIcon" href="https:{{ individuals.facebook }}">
+                                            <span class="icon is-medium">
+                                                <i class="fa fa fa-facebook"></i>
+                                            </span>
+                                        </a>
+                                        <a id="linkedinIcon" href="https:{{ individuals.linkedin }}">
                                             <span class="icon is-medium">
                                                 <i class="fab fa-linkedin-in"></i>
                                             </span>
@@ -73,6 +86,28 @@
                                     </div>
                                 </div>
                             </nav>
+                            <div class="HIDE">
+                                    <div class="field has-feedback">
+                                        <label class="label">Telephone</label>
+                                        <input id="at-field-telephoneInvisible" class="input" type="text" name="at-field-telephoneOld" value="{{ individuals.telephone }}">
+                                    </div>
+                                    <div class="field has-feedback">
+                                        <label class="label">Skype</label>
+                                        <input id="at-field-skypeInvisible" class="input" type="text" name="at-field-skypeOld" value="{{ individuals.skype }}">
+                                    </div>
+                                    <div class="field has-feedback">
+                                        <label class="label">LinkedIn</label>
+                                        <input id="at-field-linkedInInvisible" class="input" type="text" name="at_field_linkedInOld" value="{{ individuals.linkedin }}">
+                                    </div>
+                                    <div class="field has-feedback">
+                                            <label class="label">Twitter</label>
+                                            <input id="at-field-twitterInInvisible" class="input" type="text" name="at-field-twitterOld" value="{{ individuals.twitter }}">
+                                        </div>
+                                        <div class="field has-feedback">
+                                            <label class="label">Facebook</label>
+                                            <input id="at-field-facebookInInvisible" class="input" type="text" name="at_field_facebookOld" value="{{ individuals.facebook }}">
+                                        </div>
+                            </div>
                         </div>
                     </div>
                 </div>  
@@ -93,6 +128,7 @@
                         <a class="list-group-item active" style="color: white;">
                             Select Projects
                         </a>
+                        <a class="list-group-item createProject" name="createProject" style="color: #6dc18d;">Create new Project</a>
                         {{#each projectsAdd}}
                         <a class="list-group-item projectAdd" name="projectlist" value="{{_id}}">{{ name }}</a>
                         {{/each}}
@@ -105,6 +141,7 @@
                         <a class="list-group-item active" style="color: white;">
                             Select Organisation
                         </a>
+                        <a class="list-group-item createP" style="color: #6dc18d;">Create new Organisation</a>
                         {{#each individualsAdd}}
                         <a class="list-group-item individualAdd" name="peoplelist" value="{{_id}}">
                             {{ name }}
@@ -142,7 +179,7 @@
                 <div id="partnerList">    
                     <div class="addbtns">
                         <button class="addPeoples"><img class="imgAdd" src="/assets/images/partners.png" alt="icon for adding a project"/></button>
-                        <h1 class="hText">employed by</h1>
+                        <h1 class="hText">Employed by</h1>
                     </div>
                     <div class="flex-container">
 

@@ -6,7 +6,6 @@ import { Images } from '../../images/images';
 
 Meteor.publish('individuals', function individualsPublication() {
     return Individuals.find({});
-    return Projects.find({});
 
 });
 

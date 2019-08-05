@@ -6,11 +6,11 @@ import './user.html';
 
 Template.user_Component.events({
   'click .card.individual-card'(event) {
-    // Prevent default browser form submit
+  // Prevent default browser form submit
     event.preventDefault();
     event.stopPropagation();
     
-    // Go to the individual detail page
+  //Go to the individual detail page
     FlowRouter.go('IndividualsDetails.show', { individualsId: this._id.valueOf() });
   },
   'click .edit'() {

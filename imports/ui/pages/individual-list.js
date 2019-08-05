@@ -13,29 +13,28 @@ function restrict() {
 };
 
 Template.IndividualList_page.onCreated(function onCreatedIndividualListPage() {
-  Meteor.subscribe('individuals');
+    Meteor.subscribe('individuals');
 });
 
 Template.IndividualList_page.helpers({
-  individualsInfo() {
-    return Individuals.find({}, { sort: { name: 1 }});
-  }
+    individualsInfo() {
+        return Individuals.find({}, { sort: { name: 1 } });
+    }
 });
 Template.IndividualList_page.events({
-    'click .addPerson'(){
-        //            checks to make sure a user is logged in on a cadmin account
+    'click .addPerson'() {
+        //checks to make sure a user is logged in on a cadmin account
         var loggedInUser = Meteor.userId();
-            if (!Meteor.userId()) {
-                restrict();
+        if (!Meteor.userId()) {
+            restrict();
         }
-                if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole( loggedInUser, ['admin'], 'default-group'))) {
-                localStorage.removeItem('key');
-            FlowRouter.go('Individuals.add');
-            }else{
-                restrict();
-            }
-        },
-        'click .noAccessBtn-right'() {
+        if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group'))) {
+            FlowRouter.go('Individuals-forms.add');
+        } else {
+            restrict();
+        }
+    },
+    'click .noAccessBtn-right'() {
         FlowRouter.go('IndividualsList.show');
         var showHide = document.getElementById("overNoAccess");
         if (showHide.style.display === "block") {

@@ -1,22 +1,35 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../../api/images/images';
-import { Partners } from '../../api/partners/partners';
-import { Users } from '../../api/users/users';
 import { Individuals } from '../../api/individuals/individuals';
-import { EventsCollection } from '../../api/events/events';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Roles }  from 'meteor/alanning:roles';
 import './project-form.html';
 
 function Back() {
     window.history.back();
-}
-;
-Template.ProjectForm_page.onCreated(function onCreatedProjectFormPage() {
+};
 
+//persists data for forms on user navigation
+Template.ProjectForm_page.rendered = function(){
+    $( "form[data-persist='garlic']" ).garlic();
+};
+Template.ProjectForm_page.onDestroyed(function onDestroyIndividualForm_page(){
+    if(somethingChanged === true){
+        alert("The information you have entered will be saved");
+        somethingChanged = false;
+    }
+});
+Template.ProjectForm_page.onCreated(function onCreatedProjectFormPage() {
+    somethingChanged = false;
+
+    this.subscribe('partners');
+    this.subscribe('projects');
     this.subscribe('individuals');
+
+    Meteor.subscribe('partnersMinimal');
+    Meteor.subscribe('projectsMinimal');
+    Meteor.subscribe('individualsMinimal');
 
     this.availableIndividuals = new ReactiveVar([]);
     this.selectedIndividuals = new ReactiveVar([]);
@@ -30,6 +43,7 @@ Template.ProjectForm_page.onCreated(function onCreatedProjectFormPage() {
         this.selectedIndividuals.set([]);
     });
 });
+
 Template.ProjectForm_page.helpers({
     getAvailablePartners() {
         return Template.instance().availablePartners.get();
@@ -44,49 +58,68 @@ Template.ProjectForm_page.helpers({
         return Template.instance().selectedIndividuals.get();
     }
 });
-
 Template.ProjectForm_page.events({
-    'submit .form'(event) {
-        event.preventDefault();
-        const target = event.target;
-        const name = target.name.value;
-        const admin = target.admin.value;
-        const domain = target.domain.value;
-        const bio = target.bio.value;
-        const logoFile = target.logo && target.logo.files && target.logo.files.length && target.logo.files[0];
-        const docs = Individuals.findOne({_id: admin});
-        const owner = docs.owner;
-        const individuals = [admin];
+    'click .no'(){
+        document.getElementById('adminDirectId').style.display = "none";
+    },
 
-        // Insert a task into the collection
-        Images.insert(logoFile, (error, imageDocument) => {
-            logo = `cfs/files/images/${imageDocument._id}`;
-            var loggedInUser = Meteor.user();
-            if ((Roles.userIsInRole(loggedInUser, ['cAdmin'], 'default-group')) || (Roles.userIsInRole(loggedInUser, ['admin'], 'default-group'))) {
-                Meteor.call('projects.insert', {owner, admin, name, individuals, domain, bio, logo});
+    'click .logoSubmit': function (event, template) {
+        somethingChanged = false;
+
+        alert("Project has been updated");
+        Back();
+    },
+
+    'click .Cancel': function (event, template) {
+        Back();
+    },
+
+    'submit .form'(event) {   
+        somethingChanged = false;
+
+        try{
+            event.preventDefault();
+            const target = event.target;
+            const name = target.name.value;
+            const adminIn = target.admin.value;
+            const domain = target.domain.value;
+            const bio = target.bio.value;
+            const logoFile = target.logo && target.logo.files && target.logo.files.length && target.logo.files[0];
+            
+            //retrieves the individual
+            const docs = Individuals.findOne({_id: adminIn});
+            const owner = docs.owner;
+            const individuals = [adminIn];
+            const admin = [adminIn];
+            //Insert a task into the collection
+            try{
+                Images.insert(logoFile, (error, imageDocument) => {
+                    logo = `cfs/files/images/${imageDocument._id}`;
+                    Meteor.call('projectsNo.insert', {adminIn, owner, admin, name, individuals, domain, bio, logo});
+                });
+
+                alert("You have created a new Project sucessfully");
+                FlowRouter.go('Project.add');
+
+            }catch (error) {
+                    alert("Please fill out all the required fields and add an image");
             }
-            var UserWhoIssuedEvent = Meteor.user();
-            const busService = {
-                UserWhoIssuedEvent, owner, admin, name, individuals, domain, bio, logo
+            Back();
+        }catch{
+                alert("Please fill out all the required fields and add an image");
+        }finally{
 
-            };
-            //Server call to persist the data. 
-            Meteor.call("createBusServiceProject", busService, function (error, result) {
-                if (error) {
-                    $(event.target).find(".error").html(error.reason);
-                } else {
-                    Back();
-                }
-            });
-        });
-
+        }
     },
+
     'click .createP'() {
-        FlowRouter.go('Individuals.add');
+        FlowRouter.go('ProjectIndividual.add');
     },
+
     'click .cancel'(event) {
-        FlowRouter.go('ProjectList.show');
+        Back();
     },
+
     'change select[name="partners"]'(event) {
         const id = event.target.value;
         const availablePartners = Template.instance().availablePartners.get();
@@ -99,8 +132,8 @@ Template.ProjectForm_page.events({
         Template.instance().availablePartners.set(availablePartners);
         Template.instance().selectedPartners.set(selectedPartners);
     },
-    'click .tag.is-partner'(event) {
 
+    'click .tag.is-partner'(event) {
         event.preventDefault();
 
         const id = event.target.dataset.id;
@@ -114,6 +147,7 @@ Template.ProjectForm_page.events({
         Template.instance().availablePartners.set(availablePartners);
         Template.instance().selectedPartners.set(selectedPartners);
     },
+
     'change select[name="individuals"]'(event) {
         const id = event.target.value;
         const availableIndividuals = Template.instance().availableIndividuals.get();
@@ -126,8 +160,8 @@ Template.ProjectForm_page.events({
         Template.instance().availableIndividuals.set(availableIndividuals);
         Template.instance().selectedIndividuals.set(selectedIndividuals);
     },
-    'click .tag.is-individual'(event) {
 
+    'click .tag.is-individual'(event) {
         event.preventDefault();
 
         const id = event.target.dataset.id;

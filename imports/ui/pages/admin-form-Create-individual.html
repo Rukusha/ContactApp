@@ -1,0 +1,190 @@
+<template name="AdminFormCreate_page">
+    <script>
+        function formcheck() {
+            var fields = $(".ss-item-required")
+                .find("select, textarea, input, file").serializeArray();
+
+            $.each(fields, function (i, field) {
+                if (!field.value)
+                    alert(field.name + ' is required');
+            });
+            if (document.getElementById("Image").value != "") {
+                document.getElementById('CompanyForm').style.display = "none";
+                document.getElementById('cAdminForm').style.display = "block";
+            } else {
+                alert("An Image is required");
+            }
+            console.log(fields);
+        }
+        function formcheckSecond() {
+            var fields = $(".ss-item-requiredSecond")
+                .find("select, textarea, input, file").serializeArray();
+
+            $.each(fields, function (i, field) {
+                if (!field.value)
+                    alert(field.name + ' is required');
+            });
+            if (document.getElementById("Image2").value != "") {
+            } else {
+                alert("An Image is required");
+            }
+            console.log(fields);
+        }
+    </script>
+    <!-- start banner Area -->
+    <section class="banner-area relative" id="home">
+        <div class="overlay overlay-bg"></div>
+        <div class="container">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="about-content col-lg-12">
+                    <h1 class="text-white">
+                        Organisation Creation
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End banner Area -->
+    <div class="tabs is-centered">
+        <ul>
+            <li class="addBtn tabText"></li>
+        </ul>
+    </div>
+    <!--New Company admin area start-->
+    <div id="CompanyForm">
+        <div class="formBox">
+            <form data-persist="garlic" method="POST" class="form">
+                <h1 class="title is-1 has-text-centered">New Organisation Admin</h1>
+                <div class="ss-item-required">
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                            <input class="input" type="text" name="name" placeholder="Name of the individual">
+                            <p class="required">Required</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Position</label>
+                    <div class="control">
+                        <input class="input" type="text" name="position" placeholder="Position of the individual">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                        <textarea class="input inputTextArea" name="bio"
+                            placeholder="Description of the individual"></textarea>
+                    </div>
+                </div>
+                <div class="ss-item-required">
+                    <div class="field">
+                        <label class="label">Photo</label>
+                        <div class="control">
+                            <input id="Image" class="input" type="file" name="logo" data-max-size="1024"
+                                accept="image/*" placeholder="Filename of the photo">
+                            <p class="required">Required</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-item-required">
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control">
+                            <input class="input" type="text" name="emails" placeholder="Email of the admin account">
+                            <p class="required">Required</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field has-feedback">
+                    <label class="label">Telephone</label>
+                    <input id="at-field-telephone" class="input" type="tel" name="at_field_telephone"
+                        placeholder="Telephone">
+                </div>
+                <div class="field has-feedback">
+                    <label class="label">Skype</label>
+                    <input id="at-field-skype" class="input" type="text" name="at_field_skype" placeholder="Skype">
+                </div>
+                <div class="field has-feedback">
+                    <label class="label">LinkedIn</label>
+                    <input id="at-field-linkedIn" class="input" type="text" name="linkedIn" placeholder="LinkedIn">
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" onclick="formcheck();" value="Submit"
+                            class="button is-link">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-text">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--New company admin area finish-->
+
+    <!--New Company area start-->
+    <div id="cAdminForm">
+        <div class="formBox">
+            <form data-persist="garlic" method="POST" class="formOrg">
+                <h1 class="title is-1 has-text-centered">New Organisation</h1>
+                <div class="ss-item-requiredSecond">                
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="nameC" placeholder="Name of the Organisation">
+                        <p class="required">Required</p>
+                    </div>
+                </div>
+                </div>
+                <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                        <textarea class="input inputTextArea" name="bioC"
+                            placeholder="Description of the Organisation"></textarea>
+                    </div>
+                </div>
+                <div class="ss-item-required">
+                <div class="field">
+                    <label class="label">Logo</label>
+                    <div class="control">
+                        <input id="Image2" class="input" type="file" name="logoC" accept="image/*"
+                            placeholder="Filename of the logo">
+                        <p class="required">Required</p>
+                    </div>
+                </div>
+                </div>
+                <div class="field">
+                    <label class="label">LinkedIn</label>
+                    <div class="control">
+                        <input class="input" type="text" name="at_field_linkedIn"
+                            placeholder="LinkedIn of the Organisation">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Facebook</label>
+                    <div class="control">
+                        <input class="input" type="text" name="at_field_facebook"
+                            placeholder="Facebook of the Organisation">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Twitter</label>
+                    <div class="control">
+                        <input class="input" type="text" name="at_field_twitter"
+                            placeholder="Twitter of the Organisation">
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button id="adminSubmit2" type="submit" onclick="formcheckSecond();" value="Submit" class="button is-link">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-text Cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--new Company area finish-->
+</template>
